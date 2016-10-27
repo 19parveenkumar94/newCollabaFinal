@@ -1,0 +1,35 @@
+<html>
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="chat.css">
+
+</head>
+<body>
+
+<div>
+  <input type="text" ng-model="vm.teamMember" >
+  <button class="btn btn-danger" ng-click="vm.addTeamMember()">ADD</button>
+</div>
+<div class="sideNav col-sm-2" >
+<div class="channels"><p>Channels</p></div>
+<div class="onlineUsers"><p>Online Users</p></div>
+</div>
+
+
+<div class="messageDisplay"></div>
+<div class="row inputField">
+<div class="col-sm-2"></div>
+<div class="col-sm-8 inputMessage"><input type="text" class="form-control"></div>
+<div><button type="button" class="btn btn-default sendButton">Send</button></div>
+</div>
+
+
+
+</body>
+</html>

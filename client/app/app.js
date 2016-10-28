@@ -17,7 +17,6 @@ import angularMaterial from 'angular-material';
 import {
   routeConfig
 } from './app.config';
-
 import _Auth from '../components/auth/auth.module';
 import account from './account';
 import admin from './admin';
@@ -29,7 +28,6 @@ import util from '../components/util/util.module';
 import socket from '../components/socket/socket.service';
 import './app.css';
 
-
 angular.module('yoCollabaFinalApp', [ngCookies, ngResource, ngSanitize, 'btford.socket-io', ngFileUpload,
     uiRouter, uiBootstrap, _Auth, account, admin, navbar, footer, main, constants, socket, util, angularAria,
    angularAnimate,
@@ -40,7 +38,7 @@ angular.module('yoCollabaFinalApp', [ngCookies, ngResource, ngSanitize, 'btford.
   .config(routeConfig)
   .run(function($rootScope, $location, Auth) {
     'ngInject';
-    
+
     // Redirect to login if route requires auth and you're not logged in
     $rootScope.$on('$stateChangeStart', function(event, next) {
       Auth.isLoggedIn(function(loggedIn) {
@@ -51,7 +49,6 @@ angular.module('yoCollabaFinalApp', [ngCookies, ngResource, ngSanitize, 'btford.
     });
   });
 
-  
 angular.element(document)
   .ready(() => {
     angular.bootstrap(document, ['yoCollabaFinalApp'], {

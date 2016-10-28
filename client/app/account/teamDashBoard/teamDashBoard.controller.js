@@ -2,7 +2,7 @@
 const angular = require('angular');
 const ngFileUpload = require('ng-file-upload');
 /*@ngInject*/
-export function teamDashBoardController(Auth,$state,$http,socket,Upload,$timeout) {
+export function teamDashBoardController(Auth,$state,$http,socket,Upload,$timeout,$mdDialog) {
   this.message = 'Hello';
   this.Auth=Auth;
   this.$state=$state;
@@ -35,6 +35,37 @@ export function teamDashBoardController(Auth,$state,$http,socket,Upload,$timeout
   //alert(this.currentUser.role);
   var self=this;
   self.team = {};
+
+  // this.showDialog=function (ev) {
+  //      var parentEl = angular.element(document.body);
+  //      $mdDialog.show({
+  //        parent: parentEl,
+  //        targetEvent: ev,
+  //        template:
+  //          '<md-dialog aria-label="List dialog">' +
+  //          '  <md-dialog-content>'+
+  //          '    <md-list>'+
+  //          '      <md-list-item ng-repeat="item in vm.currentTeam.members">'+
+  //          '       <p>Number {{item.name}}</p>' +
+  //          '      '+
+  //          '    </md-list-item></md-list>'+
+  //          '  </md-dialog-content>' +
+  //          '  <md-dialog-actions>' +
+  //          '    <md-button ng-click="closeDialog()" class="md-primary">' +
+  //          '      Close Dialog' +
+  //          '    </md-button>' +
+  //          '  </md-dialog-actions>' +
+  //          '</md-dialog>'
+  //     });
+  //   }
+
+
+  var originatorEv;
+
+    this.openMenu = function($mdOpenMenu, ev) {
+      originatorEv = ev;
+      $mdOpenMenu(ev);
+    };
   console.log(this.currentUser);
 //ajax call to get the teams data
   for(var i=0;i<this.currentUser.teams.length;i++){
@@ -349,6 +380,7 @@ console.log(this.teamsChannel);
     });
   }
 }
+//}
 export default angular.module('yoCollabaFinalApp.teamDashBoard', [])
 .controller('TeamDashBoardController', teamDashBoardController)
 .name;

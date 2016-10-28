@@ -271,7 +271,13 @@ export function me(req, res, next) {
   var userId = req.user._id;
 
   return User.findOne({ _id: userId }, '-salt -password')
-    .populate('organisation teams channels members')
+    .populate('teams channels members')
+    .populate({
+      path: 'organisation',
+      populate:{
+        path: 'members'
+      }
+    })
     .exec()
     .then(user => { // don't ever give out the password or salt
       if(!user) {

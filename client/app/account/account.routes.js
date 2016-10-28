@@ -24,7 +24,7 @@ export default function routes($stateProvider) {
 
   .state('teamDashBoard', {
     url: '/teamDashBoard',
-    template: require('./teamDashBoard/teamDashBoard.html'),
+    template: require('./teamDashBoard/teamDashBoardmaterial.html'),
     controller: 'TeamDashBoardController',
     controllerAs: 'vm'
   })
@@ -75,7 +75,7 @@ export default function routes($stateProvider) {
       controllerAs: 'vm'
     }).state('orgWall', {
       url: '/orgWall',
-      template: require('./organisationWall/organisationWall.html'),
+      template: require('./organisationWall/organisationWallMaterial.html'),
       controller: 'OrganisationWallController',
       controllerAs: 'vm'
     });

@@ -8,36 +8,60 @@
       <form class="form" name="form" ng-submit="vm.register(form)" novalidate>
 
         <md-input-container class="md-block">
-          <label for="name">Name</label>
-          <input type="text" id="name" ng-model="vm.org.name" required
+          <label for="name">Organisation Name</label>
+          <input type="text" id="name" name="name" ng-model="vm.org.name" required
             autofocus>
+          <div class="help-block">
+            <p ng-show="form.name.$invalid && (!form.name.$pristine || form.$submitted)">
+            A name is required.</p>
+          </div>
         </md-input-container>
 
         <md-input-container class="md-block">
           <label for="email">E - mail</label>
-          <input type="email" id="email" ng-model="vm.org.email" required>
+          <input type="email" id="email" name="email" ng-model="vm.org.email" required>
+          <div class="help-block">
+            <p ng-show="form.email.$invalid && (!form.email.$pristine || form.$submitted)">
+            A valid E-mail is required. </p>
+          </div>
         </md-input-container>
 
         <md-input-container class="md-block">
           <label for="domain">Domain Name</label>
-          <input type="text" id="domain" ng-model="vm.org.domain" required
+          <input type="text" id="domain" name="domain" ng-model="vm.org.domain" required
             ng-blur="vm.checkDomainOrg()">
+          <div class="help-block">
+            <p ng-show="form.domain.$invalid && (!form.domain.$pristine || form.$submitted)">
+            A Domain Name is required. </p>
+          </div>
         </md-input-container>
 
         <md-input-container class="md-block">
-          <label for="phone">Phone</label>
-          <input type="number" id="phone" ng-model="vm.org.phone" required 
+          <label for="phone">Phone Number</label>
+          <input type="number" id="phone" name="phone" ng-model="vm.org.phone" required 
             maxlength="10">
+          <div class="help-block">
+            <p ng-show="form.phone.$invalid && (!form.phone.$pristine || form.$submitted)">
+            A Phone Number is required. </p>
+          </div>
         </md-input-container>
 
         <md-input-container class="md-block">
           <label for="website">Website</label>
-          <input type="text" id="website" ng-model="vm.org.Website" required>
+          <input type="text" id="website" name="website" ng-model="vm.org.Website" required>
+          <div class="help-block">
+            <p ng-show="form.website.$invalid && (!form.website.$pristine || form.$submitted)">
+            A Website is required. </p>
+          </div>
         </md-input-container>
 
         <md-input-container class="md-block">
           <label for="address">Address</label>
-          <input type="text" id="address" ng-model="vm.org.address" required>
+          <input type="text" id="address" name="address" ng-model="vm.org.address" required>
+          <div class="help-block">
+            <p ng-show="form.address.$invalid && (!form.address.$pristine || form.$submitted)">
+            An Address is required. </p>
+          </div>
         </md-input-container>
 
         <md-input-container class="md-block">
@@ -47,13 +71,23 @@
 
         <md-input-container class="md-block">
           <label for="password">Password</label>
-          <input type="password" id="password" ng-model="vm.org.password" required>
+          <input type="password" id="password" name="password" ng-model="vm.org.password" required>
+          <div class="help-block">
+            <p ng-show="form.password.$invalid && (!form.password.$pristine || form.$submitted)">
+            A Password is required (length >= 3). </p>
+          </div>
         </md-input-container>
 
         <md-input-container class="md-block">
           <label for="confirmPass">Confirm Password</label>
-          <input type="password" id="confirmPass" ng-model="vm.org.confirmPass" 
-            required>
+          <input type="password" id="confirmPass" name="confirmPass" 
+            ng-model="vm.org.confirmPass" required>
+          <div class="help-block">
+            <p ng-show="form.confirmPass.$invalid && (!form.confirmPass.$pristine || form.$submitted)">
+              Password Confirmation is required (length >= 3). </p>
+            <p ng-show='vm.errors.match'>
+              The Passwords must Match.</p>
+          </div>
         </md-input-container>
 
 

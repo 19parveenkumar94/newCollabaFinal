@@ -74,11 +74,13 @@ export default class SignupController {
 
  register() {
    this.submitted = true;
-    if(!this.validateForm())
+    if(!this.matchPasswords() || this.form.$invalid) {
+      alert('Please fill the form Correctly.');
       return false;
+    }
     
-    if(this.found==1)
-    alert("domain name or organisation name is incorrect or doesnot Exists");
+    if(this.found == 1)
+      alert("domain name or organisation name is incorrect or doesnot Exists");
      //alert(this.$stateParams.orgId+" "+(!this.$stateParams.orgId));
      if(!this.$stateParams.orgId&&this.found==0){
        //alert("in org nt defined");
@@ -167,30 +169,5 @@ export default class SignupController {
   return true;
  }
 
- validateForm() {
-  this.errors = {};
-  if(this.user.name == undefined || this.user.name == '')
-    this.errors.name = true;
 
-  if(this.user.email == undefined || this.user.email == '')
-    this.errors.email = true;
-
-  if(this.user.orgName == undefined || this.user.orgName == '')
-    this.errors.orgName = true;
-
-  if(this.user.password == undefined || this.user.password == '')
-    this.errors.password = true;
-
-  if(this.user.confirmPass == undefined || this.user.confirmPass == '')
-    this.errors.confirmPass = true;
-
-  if(this.user.password != this.user.confirmPass)
-    this.errors.match = true;
-
-  if(this.errors.name || this.errors.email || this.errors.orgName || this.errors.password ||
-    this.errors.confirmPass || this.errors.match) 
-    return false;
-
-  return true;
- }
 }

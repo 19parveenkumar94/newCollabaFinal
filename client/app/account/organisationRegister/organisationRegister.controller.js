@@ -11,9 +11,26 @@ export default angular.module('yoCollabaFinalApp.organisationRegister', [])
     this.Auth=Auth;
     this.$state = $state;
     this.$http=$http;
+    this.errors = {};
       //register function called from view
       var self=this;
+
+      this.matchPasswords = function() {
+        if(this.user.password != this.user.confirmPass) {
+          this.errors.match = true;
+          return false;
+        }
+        this.errors.match = false;
+        return true;
+      }
+      
+
       this.register = function (form) {
+
+      if(!this.matchPasswords() || this.form.$invalid) {
+        alert('Please fill the form Correctly.');
+        return false;
+      }
 
         //register function in service, used to add Org to database
         Auth.addUser({
@@ -53,6 +70,8 @@ export default angular.module('yoCollabaFinalApp.organisationRegister', [])
     this.$state.go('login');
 
   }
+
+  
 
 
   }

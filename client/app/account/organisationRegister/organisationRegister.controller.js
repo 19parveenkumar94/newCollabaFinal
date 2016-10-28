@@ -8,22 +8,22 @@ export default angular.module('yoCollabaFinalApp.organisationRegister', [])
 
   /*@ngInject*/
   export function organisationRegisterController(Auth,$state,$http) {
-    this.Auth=Auth;
+    this.Auth = Auth;
     this.$state = $state;
-    this.$http=$http;
+    this.$http = $http;
     this.errors = {};
       //register function called from view
-      var self=this;
+      var vm = this;
 
       this.matchPasswords = function() {
-        if(this.user.password != this.user.confirmPass) {
-          this.errors.match = true;
+        if(vm.org.password != vm.org.confirmPass) {
+          vm.errors.match = true;
           return false;
         }
-        this.errors.match = false;
+        vm.errors.match = false;
         return true;
       }
-      
+
 
       this.register = function (form) {
 
@@ -52,7 +52,7 @@ export default angular.module('yoCollabaFinalApp.organisationRegister', [])
             alert("data in channels");
                  alert(JSON.stringify(channel));
                  alert(data._id);
-                 self.Auth.addChannelInOrg({userId:data._id, channelId:channel._id})
+                 vm.Auth.addChannelInOrg({userId:data._id, channelId:channel._id})
                   .then((data)=>{
                     alert("channel added in org");
                   });

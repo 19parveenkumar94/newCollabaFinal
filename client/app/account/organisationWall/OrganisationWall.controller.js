@@ -18,7 +18,7 @@ export function OrganisationWallController(Auth,$state,$http,socket,Upload,$time
   var self = this;
 
 this.currentUser=this.Auth.getCurrentUserSync();
-
+console.log((this.currentUser.organisation.members));
   this.Auth.getCurrentUser()
   .then(currentUser => {
     this.id = currentUser._id;

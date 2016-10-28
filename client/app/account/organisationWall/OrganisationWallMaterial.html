@@ -1,0 +1,73 @@
+<div  class="layout">
+<div flex="20">
+
+  <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch="">
+
+      <md-card-content>
+        <md-tabs md-dynamic-height md-border-bottom>
+          <md-tab label="Members">
+            <md-content class="md-padding">
+              <h4>{{vm.currentUser.organisation.name}}</h4>
+              <div ng-repeat = "m in vm.currentUser.organisation.members">
+               {{m.name}}
+             </div>
+            </md-content>
+          </md-tab>
+
+        </md-tabs>
+
+
+      </md-card-content>
+    </md-card>
+
+
+</div>
+  <div id="chat" flex="80" style="margin:10px;">
+    <div class="input-group">
+      <md-input-container class="md-block" flex-gt-sm>
+            <label>Enter Message</label>
+            <input ng-model="vm.message">
+          </md-input-container>
+      <!-- <input type="text" class="form-control" placeholder="Enter message" ng-model="vm.message" /> -->
+      <span class="input-group-btn">
+        <md-button class="md-raised md-primary" type="button" ng-click="vm.sendMessage()">Send</md-button>
+      </span>
+      <span class="input-group-btn">
+        <md-button class="md-raised md-warn" type="button" ngf-select="vm.upload($file, $invalidFiles)">Upload file</md-button>
+      </span>
+    </div>
+    <br/>
+    <ul ng-show='vm.showFileStatus' class="list-group">
+      <li class="list-group-item">
+        <div class="progress">
+          <div class="progress-bar" role="progressbar" aria-valuenow="{{vm.percent}}" aria-valuemin="0" aria-valuemax="100"
+           style="width:{{vm.percent}}%">
+            {{vm.percent}}%
+          </div>
+        </div>
+      </li></ul>
+      <md-content style="height: 600px;" md-theme="altTheme">
+
+  <section>
+
+    <md-list layout-padding="">
+      <md-list-item class="md-3-line" ng-repeat="chat in vm.chatHistory">
+
+          <div class="md-list-item-text">
+
+            <h3 ng-if="chat.type == 'text'"><span class="md-warn">{{chat.sender}}:</span><span class="message"> {{chat.message}}</span></h3>
+            <h4 ng-if="chat.type == 'file'"><span >{{chat.sender}}</span>&nbsp;<a href="{{chat.message}}" target='_blank'>{{chat.ext}}</a></h4>
+          </div>
+      </md-list-item>
+    </md-list>
+  </section>
+   </md-content>
+      <!-- <ul ng-repeat='chat in vm.chatHistory' class="list-group">
+        <li ng-if="chat.type == 'text'" class="list-group-item"><span >{{chat.sender}}:</span>&nbsp;<span class="message"> {{chat.message}}
+        </span></li>
+        <li ng-if="chat.type == 'file'" class="list-group-item"><span >{{chat.sender}}</span>&nbsp;<a href="{{chat.message}}" target='_blank'>
+          {{chat.ext}}</a></li>
+      </ul> -->
+    </div>
+
+  </div>

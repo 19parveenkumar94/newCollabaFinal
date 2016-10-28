@@ -1,9 +1,11 @@
 @import '~bootstrap/dist/css/bootstrap.css';
 @import '~bootstrap-social/bootstrap-social.css';
+@import '~angular-material/angular-material.min.css';
+
+
 /**
  * Bootstrap Fonts
  */
-
 @font-face {
   font-family: 'Glyphicons Halflings';
   src: url('/assets/fonts/bootstrap/glyphicons-halflings-regular.eot');
@@ -12,13 +14,12 @@
   url('/assets/fonts/bootstrap/glyphicons-halflings-regular.ttf') format('truetype'),
   url('/assets/fonts/bootstrap/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
 }
-
 @import '~font-awesome/css/font-awesome.css';
+
 
 /**
  *Font Awesome Fonts
  */
-
 @font-face {
   font-family: 'FontAwesome';
   src: url('/assets/fonts/font-awesome/fontawesome-webfont.eot?v=4.1.0');
@@ -30,10 +31,10 @@
   font-style: normal;
 }
 
+
 /**
  * App-wide Styles
  */
-
 .browserupgrade {
   margin: 0.2em 0;
   background: #ccc;
@@ -45,10 +46,9 @@ body {
   padding-top: 70px;
 }
 
-
 hr {
   border-top: 2px solid #8c8b8b;
-  width: 90%;
+  width: 80%;
   text-align: center;
 }
 
@@ -60,13 +60,9 @@ button {
   display: none;
 }
 
-
 .dropdown:hover .dropdown-menu {
   display: block;
 }
-
-
-
 
 
 /* Component styles are injected through gulp */
@@ -79,3 +75,8 @@ button {
 @import '../components/modal/modal.css';
 @import '../components/oauth-buttons/oauth-buttons.css';
 /* endinject */
+
+
+.help-block {
+  color: red;
+}

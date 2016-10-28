@@ -1,68 +1,70 @@
-<div class="controller">
-  <h1 align="center">Register Organization</h1>
-  <br>
+  <div layout="row">
+    <div flex="30"></div>
+    <div flex="40">
+      <h1 class="md-display-1" align="center">Organisation Register</h1>
+      <br>
 
-  <div class="col-sm-offset-3 col-sm-6">
-  <form class="form" name="form" ng-submit="vm.register(form)" novalidate>
 
-  <div class="form-group">
-    <label for="name">Name</label>
-    <input type="text" class="form-control" id="name" ng-model=vm.name required>
+      <form class="form" name="form" ng-submit="vm.register(form)" novalidate>
+
+        <md-input-container class="md-block">
+          <label for="name">Name</label>
+          <input type="text" id="name" ng-model="vm.org.name" required
+            autofocus>
+        </md-input-container>
+
+        <md-input-container class="md-block">
+          <label for="email">E - mail</label>
+          <input type="email" id="email" ng-model="vm.org.email" required>
+        </md-input-container>
+
+        <md-input-container class="md-block">
+          <label for="domain">Domain Name</label>
+          <input type="text" id="domain" ng-model="vm.org.domain" required
+            ng-blur="vm.checkDomainOrg()">
+        </md-input-container>
+
+        <md-input-container class="md-block">
+          <label for="phone">Phone</label>
+          <input type="number" id="phone" ng-model="vm.org.phone" required 
+            maxlength="10">
+        </md-input-container>
+
+        <md-input-container class="md-block">
+          <label for="website">Website</label>
+          <input type="text" id="website" ng-model="vm.org.Website" required>
+        </md-input-container>
+
+        <md-input-container class="md-block">
+          <label for="address">Address</label>
+          <input type="text" id="address" ng-model="vm.org.address" required>
+        </md-input-container>
+
+        <md-input-container class="md-block">
+          <label for="about">About</label>
+          <input type="text" id="about" ng-model="vm.org.about">
+        </md-input-container>
+
+        <md-input-container class="md-block">
+          <label for="password">Password</label>
+          <input type="password" id="password" ng-model="vm.org.password" required>
+        </md-input-container>
+
+        <md-input-container class="md-block">
+          <label for="confirmPass">Confirm Password</label>
+          <input type="password" id="confirmPass" ng-model="vm.org.confirmPass" 
+            required>
+        </md-input-container>
+
+
+        <div align="center">
+          <md-button type='submit' class="md-raised md-primary">Register</md-button>
+          <md-button type="reset" class="md-raised md-warn"> Clear </md-button>
+          <br>
+          <md-button  type="button" class="md-raised" ui-sref='login'> Login </md-button>
+        </div>
+
+      </form>
+    </div>
+    <div flex="20"></div>
   </div>
-
-    <div class="form-group">
-      <label for="email">Email address</label>
-      <input type="email" class="form-control" id="email" ng-model=vm.email required>
-    </div>
-
-    <div class="form-group">
-    <label>Domain Name:</label>
-    <input type="text" class="form-control" ng-model=vm.domain ng-blur="vm.checkDomainOrg()" required>
-  </div>
-
-    <div class="form-group">
-      <label>Phone</label>
-      <input type="text" class="form-control" ng-model=vm.phone required>
-    </div>
-
-    <div class="form-group">
-      <label for="pwd">Password</label>
-      <input type="password" class="form-control" id="pwd" ng-model=vm.password required>
-    </div>
-
-    <div class="form-group">
-      <label for="pwd"> Confirm Password</label>
-      <input type="password" class="form-control" id="pwd" ng-model=vm.confirmPassword required>
-    </div>
-
-    <div class="form-group">
-      <label>Website</label>
-      <input type="text" class="form-control"  ng-model=vm.website required>
-    </div>
-
-    <div class="form-group">
-      <label>Address</label>
-      <input type="text" class="form-control"  ng-model=vm.address required>
-    </div>
-
-
-    <div class="form-groups">
-      <label>About</label>
-      <textarea rows='2' class="form-control"  ng-model=vm.about></textarea>
-    </div>
-
-    <br>
-
-
-    <br>
-    <div align="center">
-      <button type="submit" class="btn btn-lg btn-primary" align='center'>Register</button>
-      <button type="reset" class="btn btn-lg btn-danger" style="margin-right: 10%;">Reset</button>
-      <br><br>
-      <button class="btn btn-lg btn-inverse" ui-sref='loginOrganisation'>Login</button>
-    </div>
-</form>
-</div>
-<div class="clearfix"></div>
-<br>
-</div>

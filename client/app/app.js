@@ -1,5 +1,4 @@
 'use strict';
-
 import angular from 'angular';
 // import ngAnimate from 'angular-animate';
 import ngCookies from 'angular-cookies';
@@ -7,12 +6,13 @@ import ngResource from 'angular-resource';
 import ngSanitize from 'angular-sanitize';
 import ngFileUpload from 'ng-file-upload';
 import 'angular-socket-io';
-
 import uiRouter from 'angular-ui-router';
 import uiBootstrap from 'angular-ui-bootstrap';
-// import ngMessages from 'angular-messages';
-// import ngValidationMatch from 'angular-validation-match';
-
+import ngMessages from 'angular-messages';
+import ngValidationMatch from 'angular-validation-match';
+import angularAria from 'angular-aria';
+import angularAnimate from 'angular-animate';
+import angularMaterial from 'angular-material';
 
 import {
   routeConfig
@@ -27,17 +27,21 @@ import main from './main/main.component';
 import constants from './app.constants';
 import util from '../components/util/util.module';
 import socket from '../components/socket/socket.service';
-
 import './app.css';
 
+
 angular.module('yoCollabaFinalApp', [ngCookies, ngResource, ngSanitize, 'btford.socket-io', ngFileUpload,
-    uiRouter, uiBootstrap, _Auth, account, admin, navbar, footer, main, constants, socket, util
+    uiRouter, uiBootstrap, _Auth, account, admin, navbar, footer, main, constants, socket, util, angularAria,
+   angularAnimate,
+   ngMessages,
+   ngValidationMatch,
+   angularMaterial
   ])
   .config(routeConfig)
   .run(function($rootScope, $location, Auth) {
     'ngInject';
+    
     // Redirect to login if route requires auth and you're not logged in
-
     $rootScope.$on('$stateChangeStart', function(event, next) {
       Auth.isLoggedIn(function(loggedIn) {
         if(next.authenticate && !loggedIn) {
@@ -47,6 +51,7 @@ angular.module('yoCollabaFinalApp', [ngCookies, ngResource, ngSanitize, 'btford.
     });
   });
 
+  
 angular.element(document)
   .ready(() => {
     angular.bootstrap(document, ['yoCollabaFinalApp'], {

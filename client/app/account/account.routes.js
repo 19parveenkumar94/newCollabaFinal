@@ -72,11 +72,11 @@ export default function routes($stateProvider) {
       url: '/registerOrg',
       template: require('./organisationRegister/organisationRegister.html'),
       controller: 'OrganisationRegisterController',
-      controllerAs: 'vm',
+      controllerAs: 'vm'
     }).state('orgWall', {
       url: '/orgWall',
       template: require('./organisationWall/organisationWall.html'),
       controller: 'OrganisationWallController',
-      controllerAs: 'vm',
+      controllerAs: 'vm'
     });
 }

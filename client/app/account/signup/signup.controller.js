@@ -31,10 +31,7 @@ export default class SignupController {
    this.user.orgName = $stateParams.orgName;
    this.user.teamId = $stateParams.teamId;
    this.user.email = $stateParams.email;
- this.checkExisting();
-
-
-
+  this.checkExisting();
    //alert($stateParams.teamId);
 
    //alert($stateParams.orgName);
@@ -76,9 +73,14 @@ export default class SignupController {
 
 
  register() {
-   //this.submitted = true;
-if(this.found==1)
-alert("domain name or organisation name is incorrect or doesnot Exists");
+   this.submitted = true;
+    if(!this.matchPasswords() || this.form.$invalid) {
+      alert('Please fill the form Correctly.');
+      return false;
+    }
+    
+    if(this.found == 1)
+      alert("domain name or organisation name is incorrect or doesnot Exists");
      //alert(this.$stateParams.orgId+" "+(!this.$stateParams.orgId));
      if(!this.$stateParams.orgId&&this.found==0){
        //alert("in org nt defined");
@@ -157,4 +159,15 @@ alert("domain name or organisation name is incorrect or doesnot Exists");
 
 
  }
+
+ matchPasswords() {
+  if(this.user.password != this.user.confirmPass) {
+    this.errors.match = true;
+    return false;
+  }
+  this.errors.match = false;
+  return true;
+ }
+
+
 }

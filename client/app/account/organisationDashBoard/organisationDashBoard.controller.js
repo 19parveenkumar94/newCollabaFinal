@@ -2,7 +2,7 @@
 const angular = require('angular');
 
 /*@ngInject*/
-export function organisationDashBoardController(Auth,$state,$http,$cookies) {
+export function organisationDashBoardController(Auth,$state,$http,$cookies,$mdDialog) {
   var self=this;
   self.org = {};
 this.Auth=Auth;
@@ -11,6 +11,8 @@ this.$http=$http;
   this.setFormCheck=function(){
         this.showForm=1;
   }
+
+
 
   //Call to find organisation information by name
 
@@ -22,8 +24,7 @@ console.log(self.org);
 
 
 //toggles form in html page for add team
-
-  this.toggle=function(){
+this.toggle=function(){
   if(this.show==false){
   this.show=true;
 }else{
@@ -36,20 +37,38 @@ console.log(self.org);
   if(this.showTeamInfo==false){
   this.showTeamInfo=true;
   }else{
-  this.show=false;
+  this.showTeamInfo=false;
   }
   }
+
+  this.toggleTeam=function(){
+  console.log("HI");
+  if(this.showTeam==false){
+  this.showTeam=true;
+  }else{
+  this.showTeam=false;
+  }
+  }
+
+  this.toggleHide = function(index) {
+      console.log(this.org.teams)
+      this.org.teams[index].hide = !this.org.teams[index].hide;
+    }
 
 
 //poopulates menmbers for that team
-this.getMembers = function(team){
-this.$http.get('/api/teams/'+team._id)
+this.getMembers = function(index){
+this.$http.get('/api/teams/'+this.org.teams[index]._id)
    .success(function(data) {
      self.currentTeam=data;
 });
 this.teamId = team._id;
 this.teamId.show = true;
 }
+
+
+
+
 
 
 //Add team to database, create general channel for team and send mail

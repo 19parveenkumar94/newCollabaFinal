@@ -1,0 +1,24 @@
+<header class="hero-unit" id="banner">
+  <div class="container">
+    <h1>Collabo</h1>
+    <p class="lead">Making Professional Collaboration easy.</p>
+    <img  id="collabaCoverImage" src="assets/images/Collaba-icon.png" alt="Collabo Icon">
+  </div>
+</header>
+
+<div class="container" align="center">
+
+  <form class="thing-form" id="organisationCheck" class="col-sm-offset-3 col-sm-6" align='center'>
+    <label for='search-org'>Check if your Organization is registered.</label>
+    <p class="input-group" class="col-sm-6 col-sm-offset-3">
+      <input  type="text" class="form-control" id="search-org" placeholder="Enter Organization name" ng-model="$ctrl.organisation">
+      <span class="input-group-btn">
+        <button  type="submit" class="btn btn-primary check" ng-click="$ctrl.check()">Check</button>
+      </span>
+    </p>
+  </form>
+
+
+      <p ng-show='$ctrl.showSearch'>Your organisation is registered with us.</br><a ui-sref='loginOrganisation'>Go to Login!</a></p>
+      <p ng-show="!$ctrl.showSearch && $ctrl.notFound"><a ui-sref='registerOrg'>Organization not Registered! Register Now.</a></p>
+</div>

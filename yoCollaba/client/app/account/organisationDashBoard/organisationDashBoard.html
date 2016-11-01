@@ -1,0 +1,105 @@
+<link rel="stylesheet" href="oraganisationDashBoard.css">
+<header >
+<div class="container-fluid">
+  <h1>Welcome, {{vm.org.name}}</h1>
+  <!--<p class="lead">Welcome To your DashBoard</p>-->
+</div>
+</header>
+
+<div class="row">
+<div class="col-sm-4 orgInfo">
+<p>Your organisation information:</p>
+<table class="table table-condensed">
+  <tbody>
+    <tr>
+      <td><label>About:</label></td>
+      <td>{{vm.org.about}}</td>
+    </tr>
+    <tr>
+      <td><label>Address</label></td>
+      <td>{{vm.org.address}}</td>
+    </tr>
+
+    <tr>
+      <td><label>Email:</label></td>
+      <td>{{vm.org.email}}</td>
+    </tr>
+
+    <tr>
+      <td><label>Phone:</label></td>
+      <td>{{vm.org.phone}}</td>
+    </tr>
+
+    <tr>
+      <td><label>Website:</label></td>
+      <td>{{vm.org.website}}</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<div class="col-xs-8">
+<div class="col-xs-12">
+<div class="col-xs-8">
+</div>
+<div class="col-xs-4">
+  <button class="btn btn-primary" ng-click="vm.toggle()" data-toggle="button">Add Teams</button>
+
+  <form ng-show="vm.show" ng-submit="vm.addTeam()">
+    <div class="form-group">
+      <label>Team Name:</label>
+      <input type="text" class="form-control" ng-model="vm.team.name" >
+    </div>
+
+<div class="form-group">
+  <label for="email">Email address:</label>
+  <input type="email" class="form-control" ng-model="vm.team.email">
+</div>
+
+
+<button type="submit" class="btn btn-default">Submit</button>
+</form>
+
+
+</div>
+</div>
+</div>
+
+<div class="col-sm-2"></div>
+
+<!-- display online users -->
+<div class="col-sm-4 orgInfo">
+<p>Registered Teams:</p>
+<table class="table table-condensed">
+<tbody>
+  <tr  ng-repeat="team in vm.org.teams" ng-click="this.toggleMember()">
+    <td ng-click="vm.getMembers(team)"><label class="btn btn-primary">Team Name:</label>
+    {{team.name}}</br>
+    <label class="btn btn-primary">Team Lead Email: </label>
+    {{team.teamLeadEmail}}
+    </td>
+  </tr>
+</tbody>
+</table>
+
+<div ng-hide="vm.showTeamInfo">
+  <label ng-hide="vm.showTeamInfo">Name of Members in team:</label>
+<p ng-repeat="members in vm.currentTeam.members">{{members.name}}</br></p>
+</div>
+
+</div>
+</div>
+
+
+
+
+
+
+
+</div>
+</div>
+
+
+</script>

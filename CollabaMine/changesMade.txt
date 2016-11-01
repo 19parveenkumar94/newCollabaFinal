@@ -1,0 +1,9 @@
+- 31/10/16
+	*	Changed User Schema
+	*	Changed client/app/app.css to include Angular-Material
+	*	Changed client/app/app.js to include Angular-Material
+	*	npm install angular-messages --save
+	*	npm install angular-material --save
+	*	npm install ng-file-upload --save
+	*	Changed client/app/login/login.html to Angular Material
+	*	

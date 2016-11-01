@@ -1,0 +1,9 @@
+01/10/16
+	*	client/app/app.css - 17
+	*	client/app/account/settings.html - all
+	*	navbar.html - 38, 41
+	*	main.html - 11
+	*	signup.html - 8, 66, 70
+	*	signup.controller - 75, 77
+	*	Form Validations - settings, signup, login, orgSignup
+	*	orgRegister.controller - 30

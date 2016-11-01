@@ -1,0 +1,88 @@
+<body>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-3">
+        <h3>
+          Channels
+        </h3>
+        <div ng-repeat="channel in vm.team.channels">
+          <p ng-click="vm.channelClick(channel)">{{channel.name}}</p>
+        </div>
+        <div ng-show="vm.isTeamLead">
+
+
+
+              <label for="channelName" >
+                Channel Name
+              </label>
+              <input type="text" class="form-control" id="channelName" ng-model="vm.channelName">
+
+
+
+
+
+            <button  class="btn btn-default" ng-click="vm.addChannel()">
+              Create Channel
+            </button>
+
+      </div>
+      </div>
+      <div class="col-md-6">
+
+        <div id="chat">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Enter message" ng-model="vm.message" />
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button" ng-click="vm.sendMessage()">Send</button>
+            </span>
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button" ngf-select="vm.upload($file, $invalidFiles)">Upload file</button>
+            </span>
+          </div>
+          <br/>
+          <ul ng-show='vm.showFileStatus' class="list-group">
+            <li class="list-group-item">
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="{{vm.percent}}" aria-valuemin="0" aria-valuemax="100" style="width:{{vm.percent}}%">
+                  {{vm.percent}}%
+                </div>
+              </div>
+            </li></ul>
+            <ul ng-repeat='chat in vm.chatHistory' class="list-group">
+              <li ng-if="chat.type == 'text'" class="list-group-item"><span >{{chat.sender}}:</span>&nbsp;<span class="message"> {{chat.message}}</span></li>
+              <li ng-if="chat.type == 'file'" class="list-group-item"><span >{{chat.sender}}</span>&nbsp;<a href="{{chat.message}}" target='_blank'>{{chat.ext}}</a></li>
+            </ul>
+          </div>
+
+        </div>
+        <div class="col-md-3">
+          <h3>
+            {{vm.team.name}}
+          </h3>
+          <h4>
+            {{vm.team.teamLeadEmail}}
+          </h4>
+          <ul class="list-unstyled" ng-repeat="x in vm.team.members">
+            <li>
+              <p>{{x.name}}    {{x.email}}</p>
+            </li>
+
+          </ul>
+          <form ng-submit="vm.addMember()" ng-show="vm.isTeamLead">
+            email:
+            <input type="email" ng-model="vm.user.email">
+            <input type="submit" value="add member">
+
+          </form>
+        </div>
+      </div>
+      <div ng-repeat="t in vm.teamsChannel">
+  <label>Team Name:{{t.name}}</label>
+  <p ng-repeat="c in t.channels">{{c.name}}
+    <p ng-repeat="m in t.c.members ">{{m.name}}</p>
+  </p>
+  </div>
+
+    </div>
+  </body>

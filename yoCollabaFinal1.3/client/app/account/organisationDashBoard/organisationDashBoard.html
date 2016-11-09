@@ -1,0 +1,77 @@
+<div  layout-gt-sm="row" layout="column" class="listdemoBasicUsage" >
+<div flex-gt-sm="10" flex=""></div>
+  <div flex-gt-sm="60" flex="">
+    <md-toolbar layout="row" class="md-hue-3">
+      <div class="md-toolbar-tools">
+        <span><h2 class="md-display-1">Welcome, {{vm.org.name}}</h2></span>
+      </div>
+    </md-toolbar>
+    <md-content>
+      <md-subheader>About:</md-subheader>
+        <p>{{vm.org.about}}</p>
+    <md-divider></md-divider>
+    <md-content>
+    <md-subheader>Address:</md-subheader>
+        <p>{{vm.org.address}}</p>
+    <md-divider></md-divider>
+    <md-content>
+      <md-subheader>Email:</md-subheader>
+        <p>{{vm.org.email}}</p>
+    <md-divider></md-divider>
+    <md-content>
+      <md-subheader>Phone:</md-subheader>
+        <p>{{vm.org.phone}}</p>
+    <md-divider></md-divider>
+    <md-content>
+      <md-subheader>Website:</md-subheader>
+        <p>{{vm.org.website}}</p>
+    <md-divider></md-divider>
+  </div>
+<div flex-gt-sm="10" flex=""></div>
+<div flex-gt-sm="100" flex="">
+  <md-toolbar layout="row" class="md-hue-3">
+    <div class="md-toolbar-tools">
+      <span><h2 class="md-display-1">Registered Teams</h2></span>
+    </div>
+  </md-toolbar>
+<div ng-repeat="team in vm.org.teams">
+  <md-button type="button" class="md-raised" ng-click="vm.toggleHide($index)" >{{team.name}}</md-button>
+  <div ng-show=team.hide>
+  <md-card md-theme="{{ showDarkTheme ? 'dark-purple' : 'default' }}" md-theme-watch="">
+    <md-tabs md-dynamic-height="" md-border-bottom="">
+   <md-tab label="Team Information">
+     <md-content class="md-padding">
+      <p class="md-subhead" >Team Name: {{team.name}}</p>
+       <p class="md-subhead" >Team Lead Email: {{team.teamLeadEmail}}</p>
+     <div layout="row">
+       <div flex="20"></div>
+    </div>
+     </md-content>
+   </md-tab>
+   <md-tab label="Team Members" ng-click="vm.getMembers($index)">
+     <md-content class="md-padding">
+       <p ng-repeat="members in vm.currentTeam.members">{{members.name}}</br></p>
+     </md-content>
+   </md-tab>
+   </md-tabs>
+          </md-card>
+        </div>
+</div>
+</div>
+<div flex-gt-sm="100" flex="">
+<div flex="50"></div>
+<md-button type="button" class="md-raised" ng-click="vm.toggle()" >Add Team</md-button>
+  <md-card md-theme="{{ showDarkTheme ? 'dark-purple' : 'default' }}" md-theme-watch="">
+<form ng-show="vm.show" ng-submit="vm.addTeam()">
+  <md-input-container class="md-block" flex-gt-sm="">
+  <label>Team Name:</label>
+  <input  ng-model="vm.team.name" required>
+  </md-input-container>
+  <md-input-container class="md-block" flex-gt-sm="">
+  <label>Email</label>
+  <input  ng-model="vm.team.email" required>
+  </md-input-container>
+<md-button type="submit" class="md-raised">Submit</button>
+</form>
+</md-card>
+</div>

@@ -37,4 +37,8 @@ describe('Component: MainComponent', function() {
     expect(mainComponent.awesomeThings.length)
       .to.equal(4);
   });
+
+
+  
+
 });

@@ -1,0 +1,43 @@
+<div id="mainBody">
+<header align='center' id="banner">
+  <div class="container">
+    <h1>Collabo</h1>
+    <p class="lead">Making Professional Collaboration easy.</p>
+    <img  id="collabaCoverImage" src="assets/images/Collabo-icon.jpg" alt="Collabo Icon">
+  </div>
+</header>
+
+<div class="container" align="center">
+  <br><br>
+  <p class="mainText"><b> Check if your Organisation is Registered with Us.</b></p>
+  <form name="form" id="organisationCheck" align='center'>
+
+    <md-autocomplete 
+          md-search-text="$ctrl.searchText"
+          md-items="item in $ctrl.searchOrg($ctrl.searchText)"
+          md-item-text="item.name"
+          md-min-length="1"
+          placeholder='Enter the Organisation name.'>
+
+        <label for="checkOrg">Check if your Organisation is registered with us.</label>
+
+        <md-item-template >
+        <div layout="row">
+          <div flex="40">
+          <span md-highlight-text="$ctrl.searchText" md-highlight-flags="i">
+            {{item.name}}</span></div>
+            <div flex="30">
+          <md-button ui-sref='login' class="md-raised md-primary" >Login</md-button></div>
+        </md-item-template>
+
+        <md-not-found layout='row'> 
+          Organization <b> '{{$ctrl.searchText}}'</b> not Registered!
+            <md-button class='md-raised md-primary' ui-sref='registerOrg'>Register</md-button>
+        </md-not-found>
+
+    </md-autocomplete>
+  </form>
+
+</div>
+  <br><br>
+</div>

@@ -1,0 +1,51 @@
+  <div layout="row">
+    <div flex="30"></div>
+    <div layout="column" flex='30'>
+     <h1 class="md-display-1" align="center">Change Password</h1>
+<br>
+     <form class="form" name="form" ng-submit="vm.changePassword(form)" novalidate>
+
+      <md-input-container class="md-block" flex-gt-sm="">
+        <label for="oldPassword">Current Password</label>
+        <input type="password" name="oldPassword" class="form-control" 
+          ng-model="vm.user.oldPassword" required autofocus minlength="3">
+
+        <div class="help-block">
+            <p ng-show="form.oldPassword.$invalid && (!form.oldPassword.$pristine || form.$submitted)">
+            A valid Password is required. (length >=3)</p>
+        </div>
+      </md-input-container>
+     
+
+      <md-input-container class="md-block" flex-gt-sm="">
+        <label for="newPassword">New Password</label>
+        <input type="password" name="newPassword" ng-model="vm.user.newPassword" required
+        minlength="3">
+
+        <div class="help-block">
+            <p ng-show="form.newPassword.$invalid && (!form.newPassword.$pristine || form.$submitted)">
+              A valid Password is required (length >= 3). </p>
+        </div>
+      </md-input-container>
+
+
+      <md-input-container class="md-block" flex-gt-sm="">
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" name="confirmPassword" ng-model="vm.user.confirmPassword" 
+          match='vm.user.newPassword' required minlength="3">
+
+        <div class="help-block">
+            <p ng-show="form.confirmPassword.$error.match && (!form.confirmPassword.$pristine || form.$submitted)">
+              The Passwords must Match.</p>
+        </div>
+      </md-input-container>
+      
+      <br>
+      <div align="center">
+        <md-button class="md-raised md-primary" type="submit">Change Password</md-button>
+        <md-button type="reset" class="md-raised md-warn"> Clear </md-button>
+      </div>
+    </form>
+  </div>
+  <div flex=20></div>
+</div>

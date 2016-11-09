@@ -40,24 +40,31 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
       Organisation.accept(organisation);
     },
 
-//check if organiation is logged in or not
-    isOrganisation(){
+    //check if organiation is logged in or not
+    isOrganisation() {
           //console.log($cookies.get('organisation'));
-        if($cookies.get('organisation')!=undefined){
+        var user = getCurrentUser();
+
+        if(!isLoggedIn())
+            return false;
+
+        if(user.role == 'Organisation') {
             return true;
-        }else{
+        } 
+        else {
           return false;
         }
+    },
 
-        },
-//get name of current organisation logged in
-        getCurrentOrganisation(){
-        if($cookies.get('organistion')!=undefined){
-        return null
-      }else{
-            return $cookies.get('organisation');
+    //get name of current organisation logged in
+    /*getCurrentOrganisation() {
+        var org = getCurrentUser();
+        if(org != undefined && org.role == 'Organisation') {
+          return org.name;
+        } else {
+            return null;
         }
-        },
+    },*/
 
 
     /**

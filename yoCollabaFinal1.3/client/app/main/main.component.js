@@ -63,7 +63,7 @@ export class MainController {
     var lowercaseQuery = angular.lowercase(qry);
 
     return function filterFn(org) {
-      return (org.name.toLowerCase().indexOf(lowercaseQuery) === 0);
+      return (org.name.toLowerCase().indexOf(lowercaseQuery) >= 0);//>= for partial search in between
     }
   }
 

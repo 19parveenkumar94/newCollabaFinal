@@ -44,7 +44,11 @@
 	*	client/main.html - all
 	*	client/main.css - 42
 	*	client/index.html - 7
-	*	client/components/navbar.html - 
+	*	client/components/navbar.html -
+	*	//TODO - Allow Organisation Admin to delete Team 
+	*	//TODO - Add navbar link to Organisation Dashboard
+	*	navbar - 
+	*	Auth.service - 
 
 //NOTES
 	*	For Deleting a Channel
@@ -55,3 +59,4 @@
 	*	For Deleting User from a Channel
 		- Remove User from Channel model
 		- Remove Channel from User model
+

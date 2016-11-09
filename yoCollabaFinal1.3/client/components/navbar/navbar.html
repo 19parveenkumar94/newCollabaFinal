@@ -15,19 +15,19 @@
             <a ui-sref="{{item.state}}">{{item.title}}</a>
         </li>
         <li ng-show="$ctrl.isAdmin()" ui-sref-active="active"><a ui-sref="admin">Admin</a></li>
-        <li ng-hide="$ctrl.isAdmin() || !$ctrl.isLoggedIn()" ui-sref-active="active"><a ui-sref="teamDashBoard">Go to Team</a></li>
-        <li ng-hide="$ctrl.isAdmin() || !$ctrl.isOrganisation()" ui-sref-active="active"><a ui-sref="organisationDashBoard">Go to {{ $ctrl.getCurrentOrganisation()}}</a></li>
+        <li ng-show="$ctrl.isOrganisation()" ui-sref-active="active"><a ui-sref="organisationDashBoard">Go to {{ $ctrl.getCurrentUser().name}}</a></li>
+        <li ng-show="$ctrl.isLoggedIn() && !$ctrl.isOrganisation()" ui-sref-active="active"><a ui-sref="teamDashBoard">Go to Team</a></li>
         <li ng-show="$ctrl.isLoggedIn()" ui-sref-active="active"><a ui-sref="orgWall">Go to Wall</a></li>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
         <!-- gauravs dropdown part for login and signup -->
-        <li ng-hide="$ctrl.isLoggedIn()||$ctrl.isOrganisation()" ui-sref-active="active" class="dropdown">
+        <li ng-hide="$ctrl.isLoggedIn()" ui-sref-active="active" class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown" ui-sref='login'>Login</a>
     </li>
 
 
-    <li ng-hide="$ctrl.isLoggedIn()||$ctrl.isOrganisation()" ui-sref-active="active" class="dropdown">
+    <li ng-hide="$ctrl.isLoggedIn()" ui-sref-active="active" class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown" ui-sref='signup'>Register
       <span class="caret"></span></a>
       <ul class="dropdown-menu">
@@ -36,10 +36,9 @@
       </ul>
     </li>
         <li ng-show="$ctrl.isLoggedIn()"><p class="navbar-text">Hello {{ $ctrl.getCurrentUser().name }}</p> </li>
-        <li ng-show="$ctrl.isOrganisation()"><p class="navbar-text">Hello {{ $ctrl.getCurrentOrganisation()}}</p> </li>
         <li ng-show="$ctrl.isLoggedIn()" ui-sref-active="active"><a ui-sref="settings">
           <i class="material-icons" style="font-size: 150%;">settings</i></a></li>
-        <li ng-show="$ctrl.isLoggedIn()||$ctrl.isOrganisation()"><a ui-sref="logout">Logout</a></li>
+        <li ng-show="$ctrl.isLoggedIn()"><a ui-sref="logout">Logout</a></li>
         </ul>
     </div>
   </div>

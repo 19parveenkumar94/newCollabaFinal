@@ -1,0 +1,59 @@
+<div class="navbar  navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button class="navbar-toggle" type="button" ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/" class="navbar-brand">Collabo</a>
+    </div>
+    <div uib-collapse="$ctrl.isCollapsed" class="navbar-collapse collapse" id="navbar-main">
+      <ul class="nav navbar-nav">
+        <li ng-repeat="item in $ctrl.menu" ui-sref-active="active">
+            <a ui-sref="{{item.state}}">{{item.title}}</a>
+        </li>
+        <li ng-show="$ctrl.isAdmin()" ui-sref-active="active"><a ui-sref="admin">Admin</a></li>
+        <li ng-hide="$ctrl.isAdmin() || !$ctrl.isLoggedIn()" ui-sref-active="active"><a ui-sref="teamDashBoard">Go to Team</a></li>
+        <li ng-hide="$ctrl.isAdmin() || !$ctrl.isOrganisation()" ui-sref-active="active"><a ui-sref="organisationDashBoard">Go to {{ $ctrl.getCurrentOrganisation()}}</a></li>
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right">
+        <!-- gauravs dropdown part for login and signup -->
+        <li ng-hide="$ctrl.isLoggedIn()||$ctrl.isOrganisation()" ui-sref-active="active" class="dropdown">
+      <a class="dropdown-toggle" data-toggle="dropdown" ui-sref='login'>Login
+      <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <li><a ui-sref="login">User</a></li>
+        <li><a ui-sref="loginOrganisation">Organization</a></li>
+      </ul>
+    </li>
+
+
+    <li ng-hide="$ctrl.isLoggedIn()||$ctrl.isOrganisation()" ui-sref-active="active" class="dropdown">
+      <a class="dropdown-toggle" data-toggle="dropdown" ui-sref='signup'>Register
+      <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <li><a ui-sref="signup">User</a></li>
+        <li><a ui-sref="registerOrg">Organization</a></li>
+      </ul>
+    </li>
+      <!-- till here -->
+        <!-- <li ng-hide="$ctrl.isLoggedIn()||$ctrl.isOrganisation()" ui-sref-active="active"><a ui-sref="signup">Sign up</a></li>
+        <li ng-hide="$ctrl.isLoggedIn()||$ctrl.isOrganisation()" ui-sref-active="active"><a ui-sref="registerOrg">Register Organisation</a></li>
+        <li ng-hide="$ctrl.isLoggedIn()||$ctrl.isOrganisation()" ui-sref-active="active"><a ui-sref="login">Login</a></li> -->
+        <li ng-show="$ctrl.isLoggedIn()"><p class="navbar-text">Hello {{ $ctrl.getCurrentUser().name }}</p> </li>
+        <li ng-show="$ctrl.isOrganisation()"><p class="navbar-text">Hello {{ $ctrl.getCurrentOrganisation()}}</p> </li>
+        <li ng-show="$ctrl.isLoggedIn()" ui-sref-active="active"><a ui-sref="settings"><span class="glyphicon glyphicon-cog"></span></a></li>
+        <li ng-show="$ctrl.isLoggedIn()||$ctrl.isOrganisation()"><a ui-sref="logout">Logout</a></li>
+        </ul>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('.dropdown-toggle').dropdown();
+  });
+</script>

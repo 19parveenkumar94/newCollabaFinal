@@ -50,6 +50,12 @@
 	*	navbar - 
 	*	Auth.service - 
 
+
+11/11/16
+	*	client/navbar.html - 19
+	*	client/navbar.component - 25
+	
+
 //NOTES
 	*	For Deleting a Channel
 		- Remove Channel from Team model

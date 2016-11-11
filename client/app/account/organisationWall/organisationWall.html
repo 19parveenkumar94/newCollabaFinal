@@ -1,7 +1,8 @@
 <div class="col-md-6">
+hiiiiiiiiiiii
   <div id="chat">
     <div class="input-group">
-      <input type="text" class="form-control" placeholder="Enter message" ng-model="vm.message" />
+      <input type="text" class="form-control" placeholder="Enter messageasdasdasdasd" ng-model="vm.message" />
       <span class="input-group-btn">
         <button class="btn btn-default" type="button" ng-click="vm.sendMessage()">Send</button>
       </span>
@@ -18,12 +19,16 @@
             {{vm.percent}}%
           </div>
         </div>
+
+
       </li></ul>
+      <md-button ng-click="vm.pin(chat)">PIN</md-button>
       <ul ng-repeat='chat in vm.chatHistory' class="list-group">
         <li ng-if="chat.type == 'text'" class="list-group-item"><span >{{chat.sender}}:</span>&nbsp;<span class="message"> {{chat.message}}
-        </span></li>
+        </span><span style="text-align:right;"></span></li>
         <li ng-if="chat.type == 'file'" class="list-group-item"><span >{{chat.sender}}</span>&nbsp;<a href="{{chat.message}}" target='_blank'>
           {{chat.ext}}</a></li>
+
       </ul>
     </div>
   </div>

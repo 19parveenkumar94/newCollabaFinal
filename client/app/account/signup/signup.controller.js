@@ -31,10 +31,7 @@ export default class SignupController {
    this.user.orgName = $stateParams.orgName;
    this.user.teamId = $stateParams.teamId;
    this.user.email = $stateParams.email;
- this.checkExisting();
-
-
-
+  this.checkExisting();
    //alert($stateParams.teamId);
 
    //alert($stateParams.orgName);
@@ -75,13 +72,18 @@ export default class SignupController {
 
 
 
- register() {
-   //this.submitted = true;
-if(this.found==1)
-alert("domain name or organisation name is incorrect or doesnot Exists");
+ register(form) {
+   this.submitted = true;
+    if(form.$invalid) {
+      alert('Please fill the form Correctly.');
+      return false;
+    }
+
+    // if(this.found == 1)
+    //   alert("domain name or organisation name is incorrect or doesnot Exists");
      //alert(this.$stateParams.orgId+" "+(!this.$stateParams.orgId));
-     if(!this.$stateParams.orgId&&this.found==0){
-       //alert("in org nt defined");
+     if(!this.$stateParams.orgId){
+       alert("in org nt defined");
        var orgId;
        this.Auth.findOrgbyName({name:this.user.orgName})
        .then((org)=>{
@@ -96,7 +98,7 @@ alert("domain name or organisation name is incorrect or doesnot Exists");
          }).then((data)=>{
 
            console.log("added user in user schema");
-           alert(org.channels[0]);
+           //alert(org.channels[0]);
            this.Auth.addUserInChannel({userId:data._id,channelId:org.channels[0]})
                .then((data)=>{
                  alert("channle added in user");
@@ -105,7 +107,7 @@ alert("domain name or organisation name is incorrect or doesnot Exists");
                });
            this.Auth.addUserInOrg({orgId:org._id, userId:data._id})
                      .then((data)=>{
-                       console.log("added in org");
+                       alert("added in org");
                        this.$state.go('login');
                      });
 
@@ -116,7 +118,7 @@ alert("domain name or organisation name is incorrect or doesnot Exists");
      }
      else {
 
-
+       alert("in this");
        //create a user with given orgid and team id
        this.Auth.findOrgbyName({name:this.user.orgName})
        .then((org)=>{
@@ -157,4 +159,5 @@ alert("domain name or organisation name is incorrect or doesnot Exists");
 
 
  }
-}
+
+ }

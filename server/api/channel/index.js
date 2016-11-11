@@ -10,7 +10,8 @@ router.get('/:id', controller.show);
 router.post('/', controller.create);
 router.post('/addUser', controller.addUser);
 router.post('/addUserInChannel', controller.addUserInChannel);
-
+router.post('/pinChatInChannel', controller.pinChatInChannel);
+router.post('/deleteChannel', controller.deleteChannel);
 router.post('/addMembersInChannel', controller.addMembersInChannel);
 router.put('/:id', controller.upsert);
 router.patch('/:id', controller.patch);

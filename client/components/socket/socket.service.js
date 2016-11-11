@@ -20,13 +20,38 @@ function Socket(socketFactory) {
 
   return {
     socket,
+
+    //leave a particular room
+    roomLeave(channelId){
+      alert("in room leaving.............");
+      socket.emit('roomLeave',channelId);
+    },
+    isTyping(data){
+         socket.emit('isTyping',data);
+       },
+
+
+       syncIsTyping(cb){
+         socket.on('isTyping',function(data){
+           console.log(data);
+           cb(data);
+         })
+       },
     //Send room channelId to join
     room(channelId){
+      console.log('calling room....');
       socket.emit('room',channelId);
     },
     //Send Message to channel on
     sendMessage(data){
       socket.emit('channel-message',data);
+    },
+
+    //notification for user
+    syncNotifiaction(cb){
+      socket.on('notification',function(data){
+        cb(data);
+      });
     },
     //Update the chats from particular channel
     syncUpdatesChats(cb){
@@ -34,6 +59,24 @@ function Socket(socketFactory) {
         console.log("Get info:"+data);
         cb(data);
       });
+    },
+    //update the online users
+    syncUpdatedOnlineUserList(cb){
+      socket.on('updatedOnlineUserList',function(data){
+        console.log(JSON.stringify(data));
+        cb(data);
+      })
+    },
+    //remove from online userslist after logout
+    removeFromOnlineUserList(data){
+      alert("in remove");
+      socket.emit('removeFromOnlineUserList',data);
+
+    },
+    //as he comes online add it to online users listener
+    addOnlineUsers(data){
+      console.log("in online users");
+      socket.emit('addInOnlineUsersList',data);
     },
       /**
       * Register listeners to sync an array with updates on a model

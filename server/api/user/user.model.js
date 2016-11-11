@@ -22,6 +22,10 @@ var UserSchema = new Schema({
       }
     }
   },
+  profilePic : {
+    type: String,
+    default: 'assets/profile/yeoman.png'
+  },
   role: {
     type: String,
     default: 'user'

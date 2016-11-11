@@ -12,6 +12,8 @@
 
 import jsonpatch from 'fast-json-patch';
 import Channel from './channel.model';
+import User from '../user/user.model';
+import Team from '../team/team.model';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -78,7 +80,7 @@ export function show(req, res) {
     .catch(handleError(res));
 }
 export function addUser(req,res){
-  return Channel.findOne({team:req.body.teamId,name:'general'})
+  return Channel.findOne({team:req.body.teamId,name:req.body.name})
                 .then((channel) => {
                   channel.members.push(req.body.userId);
                   channel.save();
@@ -91,6 +93,16 @@ export function addUserInChannel(req,res){
   return Channel.findOne({_id:req.body.channelId})
                 .then((channel) => {
                   channel.members.push(req.body.userId);
+                  channel.save();
+                  res.send(channel);
+                })
+}
+//server side code to save the pinned message in the org wall channel
+export function pinChatInChannel(req,res){
+  return Channel.findOne({_id:req.body.channelId})
+                .then((channel)=>{
+                  console.log("pin chat in channel");
+                  channel.history.push(req.body.chat);
                   channel.save();
                   res.send(channel);
                 })
@@ -142,4 +154,47 @@ export function destroy(req, res) {
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
     .catch(handleError(res));
+}
+
+
+
+//Delete a Channel from the DB and it's Dependencies
+export function deleteChannel(req, res) {
+  var cId = req.body.channelId, tId = req.body.teamId;
+  console.log('Inside POST api/channels/deleteChannel : ' + cId + ", " + tId);
+
+  //Remove Channel from Team
+  Team.findOne({ _id: tId }, function(err, team) {
+    if(err)
+      console.error(err);
+    else {
+      var idx = team.channels.indexOf(cId);
+      team.channels.splice(idx, 1);
+      team.save();
+    }
+  });
+
+
+  //Remove Channel from all Members of the Channel and from Channel Schema
+  Channel.findOne( { _id: cId }, function(err, channel) {
+    if(err)
+      console.error(err);
+    else {
+      var memberList = channel.members;
+      console.log(memberList);
+      for(var i=0; i<memberList.length; ++i) {
+        //Remove Channel from User
+        User.findOne({ _id: memberList[i] }, function(err, user) {
+          console.log('User : ------------------------' + user);
+          var idx = user.channels.indexOf(cId);
+          user.channels.splice(idx, 1);
+          user.save();
+        });
+      }
+      //Remove Channel from DB
+      channel.remove();
+    }
+  });
+
+  res.send(true);
 }

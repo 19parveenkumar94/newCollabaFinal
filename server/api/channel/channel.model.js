@@ -15,11 +15,22 @@ var ChannelSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User'
   }],
+
   type: String,
   history: [{
     user: String,
+    video: String,
+    thumbNail: String,
     message: String,
+    comments: [{
+      user: String,
+      comment: String
+    }],
     messageType: String,
+    title: {
+      type: String,
+      default: 'Wallpost'
+    },
     time: {
       type: Date,
       default: Date.now

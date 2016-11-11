@@ -23,6 +23,60 @@ function handleError(res, statusCode) {
 }
 
 
+export function uploadProfilePhoto(req, res) {
+  var saveTo;
+  var busboy = new BusBoy({
+    headers: req.headers
+  });
+  req.pipe(busboy);
+  busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
+    console.log('-----Saving file');
+    saveTo = path.join('./client/assets/profile', path.basename(filename));
+    console.log('++++++++++File being saved to: ' + saveTo);
+    file.pipe(fs.createWriteStream(saveTo));
+  });
+  busboy.on('finish', function () {
+    console.log(saveTo);
+    res.status(200).json({'filePath':saveTo});
+  });
+
+
+  //Save url to database
+}
+
+export function saveProfilePhoto(req, res) {
+  var userId = req.body.data.userId;
+  //console.log("Params : "+JSON.stringify(req.params));
+  //console.log("Data : "+req.params.data);
+  console.log("Save photo url :" + JSON.stringify(req.body));
+  return User.findOne({
+      _id: userId
+    })
+    //.exec()
+    .then(user => { // don't ever give out the password or salt
+      if (!user) {
+        return res.status(401)
+          .end();
+      }
+      var user2 = {
+        user: req.body.data.userId,
+        profileUrl : req.body.data.message,
+        //messageType: req.body.data.type
+      };
+      //channel.history.push(message);
+
+      var url= req.body.data.message;
+
+      url = url.replace(/\\/g,"/");
+      url = url.replace('client/', '');
+      user.profilePic = url;
+      console.log(user);
+
+      user.save();
+      res.send("Data saved");
+    });
+}
+
 
 export function updateTeam(req,res){
   return User.findOne({_id:req.body.organisationId})
@@ -36,6 +90,57 @@ export function updateTeam(req,res){
                         }
                       })
 }
+
+export function addComment(req,res){
+  console.log(req.body);
+  return Channel.findOne({_id:req.body.channelId})
+                .then(channel=>{
+                  var message = {
+                    user: req.body.post.sender,
+                    message: req.body.post.message,
+                    messageType: req.body.post.type,
+                    title: req.body.post.title
+                  };
+                  console.log(channel.history);
+                  console.log(message);
+                  console.log(channel.history.indexOf(message));
+
+                  channel.history[channel.history.findIndex(obj=>obj.message==req.body.post.message)].comments.push({user:req.body.post.sender,comment:req.body.post.comment});
+                  channel.save();
+                  res.send(channel);
+
+                })
+}
+
+export function deleteMessage(req, res) {
+
+ console.log(req.body);
+ var channelId = req.params.channelId;
+
+ return Channel.findOne({
+     _id: channelId
+   })
+   .exec()
+   .then(channel => { // don't ever give out the password or salt
+     if (!channel) {
+       return res.status(401)
+         .end();
+     }
+     var message = {
+       user: req.body.sender,
+       message: req.body.message,
+       messageType: req.body.type,
+       title: req.body.title
+     };
+
+     console.log(channel.history);
+     console.log(channel.history.indexOf(message));
+     channel.history.splice(channel.history.findIndex(obj=>obj.message==req.body.message),1);
+     channel.save();
+     res.send("Data saved");
+   });
+}
+
 
 export function domainCheck(req,res){
   return User.findOne({domainName:req.body.domain,name:req.body.orgname})
@@ -121,10 +226,14 @@ export function saveMessage(req, res) {
         return res.status(401)
           .end();
       }
+      console.log(req.body.data);
       var message = {
         user: req.body.data.user,
         message: req.body.data.message,
-        messageType: req.body.data.type
+        messageType: req.body.data.type,
+        title: req.body.data.title,
+        video: req.body.data.video,
+        thumbNail:req.body.data.thumbNail
       };
       channel.history.push(message);
       channel.save();
@@ -271,7 +380,13 @@ export function me(req, res, next) {
   var userId = req.user._id;
 
   return User.findOne({ _id: userId }, '-salt -password')
-    .populate('organisation teams channels members')
+    .populate('teams channels members')
+    .populate({
+      path: 'organisation',
+      populate:{
+        path: 'members'
+      }
+    })
     .exec()
     .then(user => { // don't ever give out the password or salt
       if(!user) {
@@ -305,4 +420,36 @@ export function uploadFile(req, res) {
     console.log(saveTo);
     res.status(200).json({'filePath':saveTo});
   });
+}
+
+
+//Delete Member from given Channel
+export function deleteMemberFromChannel(req, res) {
+  var mId = req.body.memberId, cId = req.body.channelId;
+  console.log("Inside Server deleteMemberFromChannel : " + mId + ", " + cId);
+
+  //Remove User from Channel
+  Channel.findOne({ _id: cId }, function(err, channel) {
+    if(err)
+      console.error(err);
+    else {
+      var idx = channel.members.indexOf(mId);
+      channel.members.splice(idx, 1);
+      channel.save();
+    }
+  });
+
+  //Remove Channel from User
+  User.findOne({ _id: mId }, function(err, user) {
+    if(err)
+      console.error(err);
+    else {
+      var idx = user.channels.indexOf(cId);
+      user.channels.splice(idx, 1);
+      user.save();
+    }
+  });
+
+
+  res.send(true);
 }

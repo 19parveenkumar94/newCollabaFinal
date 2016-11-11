@@ -1,0 +1,206 @@
+<body>
+<div layout="row">
+
+  <div flex="30">
+    <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
+            <md-card-title>
+              <md-card-title-text>
+                <span class="md-headline">Teams</span>
+                <span class="md-subhead">Click teams for channels</span>
+              </md-card-title-text>
+              <md-card-content>
+
+              </md-card-content>
+          </md-card>
+<div ng-repeat="t in vm.teamsChannel">
+  <md-menu>
+    <md-button  class="md-warn" ng-click="vm.openMenu($mdOpenMenu, $event)">
+        {{t.name}}
+      </md-button>
+      <md-menu-content>
+        <div ng-repeat = " c in t.inChannel ">
+          <md-menu-item ng-if="c.name!='wall'">
+            <md-button ng-click="vm.channelClick(c,t) " >
+              {{c.name}}
+            </md-button>
+            <md-button class="md-icon-button md-accent" aria-label="delete"
+                ng-show="vm.isTeamLead && vm.allowChannelDeletion(c.name)"
+                ng-click='vm.deleteChannel(c.name, c._id)'>
+            <i class="material-icons" style="color: red;">delete_forever</i>
+          </md-button>
+          </md-menu-item>
+          <md-menu-item ng-if="c.name=='wall'">
+            <md-button ng-click="vm.teamWall(c,t) " >
+              go to {{c.name}}
+            </md-button>
+            <md-button class="md-icon-button md-accent" aria-label="delete"
+                ng-show="vm.isTeamLead && vm.allowChannelDeletion(c.name)"
+                ng-click='vm.deleteChannel(c.name, c._id)'>
+            <i class="material-icons" style="color: red;">delete_forever</i>
+          </md-button>
+          </md-menu-item>
+
+      </div>
+      </md-menu-content>
+  </md-menu>
+
+</div>
+</div>
+  <div flex="50">
+
+    <div id="chat" ng-show=vm.toggle >
+      <md-toolbar md-scroll-shrink="" style="margin:10px;">
+    <div  class="md-toolbar-tools">Your Messages {{vm.currentTeam.name}} {{vm.currentChannel.name}}</div>
+  </md-toolbar>
+      <div class="input-group" style="margin:10px;">
+        <input type="text" class="form-control" placeholder="Enter message" ng-model="vm.message" ng-keypress="vm.isTyping()"  ng-blur="vm.doneTyping(vm.currentUser.name)"/>
+         <div ng-show=vm.typing> <p ng-show="vm.lessThanTwo"><i ng-repeat="name in vm.userTyping">{{name}},</i> is typing...</p>
+       <p ng-hide=vm.lessThanTwo><i>Multiple users are typing...</i></p>
+       </div>
+        <span class="input-group-btn">
+          <md-button class="md-raised md-primary" type="button" ng-click="vm.sendMessage()">Send</md-button>
+        </span>
+        <span class="input-group-btn">
+          <md-button class="md-raised md-warn" ngf-select="vm.upload($file, $invalidFiles)">Upload file</md-button>
+        </span>
+      </div>
+      <br/>
+      <ul ng-show='vm.showFileStatus' class="list-group">
+        <li class="list-group-item">
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" aria-valuenow="{{vm.percent}}" aria-valuemin="0" aria-valuemax="100" style="width:{{vm.percent}}%">
+              {{vm.percent}}%
+            </div>
+          </div>
+        </li></ul>
+        <md-content style="height: 600px;" md-theme="altTheme">
+
+    <section>
+
+      <md-list layout-padding="">
+        <md-list-item class="md-3-line" ng-repeat="chat in vm.chatHistory">
+
+            <div class="md-list-item-text">
+              <h3 ng-if="chat.type == 'text'"><span class="md-warn">{{chat.sender}}:</span><span ng-bind-html="vm.trustAsHtml(chat.message)" class="message"></span>
+                <span ng-if="chat.video"><img src="{{chat.thumbNail}}" height="300px" ng-click="vm.showVideo($event,chat.video)"/></span>
+                <span style="float:right;"><md-button ng-click="vm.pinToOrg(chat)" class="md-raised md-primary">PIN To Org</md-button></span>
+                <span style="text-align:right;"><md-button ng-click="vm.pinToTeamWall(chat)" class="md-raised md-primary">PIN To Team Wall</md-button></span>
+                  </h3>
+              <h4 ng-if="chat.type == 'file'"><span >{{chat.sender}}</span>&nbsp;<a href="{{chat.message}}" target='_blank'>{{chat.ext}}</a>
+              <span style="float:right;"><md-button ng-click="vm.pinToOrg(chat)" class="md-raised md-primary">PIN To Org</md-button></span></h4>
+            </div>
+        </md-list-item>
+      </md-list>
+    </section>
+     </md-content>
+
+      </div>
+  </div>
+
+
+
+
+
+  <div flex='20' style="margin:10px;">
+  <div ng-show="vm.toggle">
+    <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch="">
+
+        <md-card-content>
+          <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="Members">
+              <md-content class="md-padding">
+                <h4>{{vm.currentTeam.name}}:{{vm.currentChannel.name}}</h4>
+                <div ng-repeat = "m in vm.currentChannel.members" ng-click=vm.privateChat(m)>
+                  <div layout="row">
+
+                <div flex="70">
+                  {{m.name}}
+                </div>
+                <div flex="15" ng-if="vm.checkIfOnline(m)">
+                  <img    src="assets/images/online.png"
+                  alt="Online" style="float:left;width:10px;height:10px;" />
+                </div>
+                <div flex="15">
+                  <md-button class="md-icon-button md-accent" aria-label="delete"
+                    ng-show="vm.isTeamLead && vm.allowMemberDeletion(m.name)"
+                    ng-click="vm.deleteMemberFromChannel(m.name, m._id)">
+                    <i class="material-icons" style="color: red;">delete_forever</i>
+                  </md-button>
+                </div>
+                </div>
+               </div>
+              </md-content>
+            </md-tab>
+            <md-tab label="Add" data-ng-if="vm.showAddChannel">
+              <div ng-show=vm.showAddChannel>
+                <form>
+                  <md-input-container class="md-block" flex-gt-sm>
+              <label>Email:</label>
+              <input type="email" ng-model="vm.addMemberEmail">
+            </md-input-container>
+
+                   <md-button  class="md-raised md-primary" ng-click="vm.addMember(vm.currentTeam)">add member</md-button>
+                </form>
+                  </div>
+            </md-tab>
+          </md-tabs>
+
+
+        </md-card-content>
+      </md-card>
+      <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch="" data-ng-if="vm.showAddChannel">
+        <md-card-content>
+          <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="Add Channel">
+              <md-input-container class="md-block" flex-gt-sm>
+          <label>Channel Name</label>
+          <input type="text" id="channelName" ng-model="vm.channelName">
+        </md-input-container>
+
+               <!-- <input type="text" class="form-control" id="channelName" ng-model="vm.channelName"> -->
+               <div ng-repeat="st in vm.currentTeam.members">
+                 <md-checkbox md-no-ink aria-label="Checkbox No Ink" ng-model="vm.selectedMembers[st._id]" class="md-primary">
+          {{st.name}}
+          </md-checkbox>
+                 <!-- <input type="checkbox" ng-model="vm.selectedMembers[st._id]" >{{st.name}} -->
+               </div>
+               <md-button class="md-raised md-primary"  ng-click="vm.addChannel(vm.currentTeam)">Create Chanel!</md-button>
+
+
+            </md-tab>
+          </md-tabs>
+        </md-card-content>
+      </md-card>
+
+      <!-- <div ng-show=vm.showAddChannel>
+        <label class="btn btn-primary" ng-click="vm.showDialog($event)" >Add Channel:</label>
+      </div> -->
+
+</div>
+
+    <!-- <div ng-show="vm.toggle">
+
+    <div ng-show=vm.showAddChannel>
+      <label class="btn btn-primary">Add Channel:</label>
+       <form>
+       <input type="text" class="form-control" id="channelName" ng-model="vm.channelName">
+       <div ng-repeat="st in vm.currentTeam.members">
+         <input type="checkbox" ng-model="vm.selectedMembers[st._id]" >{{st.name}}
+       </div>
+       <button  class="btn btn-default" ng-click="vm.addChannel(vm.currentTeam)">Create Chanel!</button>
+     </form>
+
+     <form>
+       <button class="btn btn-primary">Add Member</button>
+       email:
+       <input type="email" ng-model="vm.addMemberEmail">
+        <input type="submit" value="add member">
+        <button  class="btn btn-default" ng-click="vm.addMember(vm.currentTeam)">add member</button>
+     </form>
+    </div>
+
+
+    </div> -->
+  </div>
+</div>
+</body>

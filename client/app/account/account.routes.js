@@ -9,6 +9,13 @@ export default function routes($stateProvider) {
     controller: 'LoginController',
     controllerAs: 'vm'
   })
+  .state('user', {
+    url: '/user',
+    template: require('./user/user.html'),
+    controller: 'UserController',
+    controllerAs: 'vm'
+  })
+
   .state('loginOrganisation', {
     url: '/loginOrganisation',
     template: require('./loginOrganisation/loginOrganisation.html'),
@@ -24,7 +31,7 @@ export default function routes($stateProvider) {
 
   .state('teamDashBoard', {
     url: '/teamDashBoard',
-    template: require('./teamDashBoard/teamDashBoard.html'),
+    template: require('./teamDashBoard/teamDashBoardmaterial.html'),
     controller: 'TeamDashBoardController',
     controllerAs: 'vm'
   })
@@ -46,10 +53,11 @@ export default function routes($stateProvider) {
       url: '/logout?referrer',
       referrer: 'main',
       template: '',
-      controller($state, Auth) {
+      controller($state, Auth,socket) {
         'ngInject';
 
         var referrer = $state.params.referrer || $state.current.referrer || 'main';
+
         Auth.logout();
 
         //$state.go(referrer);
@@ -72,11 +80,18 @@ export default function routes($stateProvider) {
       url: '/registerOrg',
       template: require('./organisationRegister/organisationRegister.html'),
       controller: 'OrganisationRegisterController',
-      controllerAs: 'vm',
+      controllerAs: 'vm'
     }).state('orgWall', {
       url: '/orgWall',
-      template: require('./organisationWall/organisationWall.html'),
+      template: require('./organisationWall/organisationWallMaterial.html'),
       controller: 'OrganisationWallController',
-      controllerAs: 'vm',
-    });
+      controllerAs: 'vm'
+    })
+    .state('teamWall', {
+      url: '/teamWall',
+      template: require('./teamWall/teamWall.html'),
+      controller: 'TeamWallController',
+      controllerAs: 'vm'
+    })
+    ;
 }

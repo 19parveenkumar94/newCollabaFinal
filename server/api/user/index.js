@@ -17,6 +17,8 @@ router.post('/add', controller.add);
 router.post('/addTeamInUser2', controller.addTeamInUser3);
 router.post('/addUserInOrg', controller.addUserInOrg);
 router.put('/:id', controller.upsert);
+router.post('/addComment', controller.addComment);
+
 //router.post('/findMember', controller.findMember);
 router.post('/updateTeam', controller.updateTeam);
 router.post('/addChannel', controller.addChannel);
@@ -26,5 +28,8 @@ router.post('/domainCheck', controller.domainCheck);
 router.post('/addUser', controller.addUser);
 //Find if user Already Exists
 router.post('/checkExisting', controller.checkExisting);
-
+router.post('/deleteMessage/:channelId', controller.deleteMessage);
+router.post('/deleteMemberFromChannel', controller.deleteMemberFromChannel);
 module.exports = router;
+router.post('/addProfilePic' , controller.uploadProfilePhoto);
+router.post('/saveProfilePic' , controller.saveProfilePhoto);

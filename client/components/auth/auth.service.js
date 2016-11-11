@@ -31,18 +31,18 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
   var Auth = {
 
     register(organisation){
-      console.log(organisation);
+      //console.log(organisation);
       Organisation.save(organisation);
     },
 
     acceptOrganisation(organisation){
-      console.log(organisation);
+      //console.log(organisation);
       Organisation.accept(organisation);
     },
 
 //check if organiation is logged in or not
     isOrganisation(){
-          console.log($cookies.get('organisation'));
+        //  console.log($cookies.get('organisation'));
         if($cookies.get('organisation')!=undefined){
             return true;
         }else{
@@ -77,7 +77,7 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
         password
       })
         .then(res => {
-          console.log(res.data);
+          //console.log(res.data);
           $cookies.put('token', res.data.token);
           currentUser = User.get();
           return currentUser.$promise;
@@ -105,7 +105,7 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
       })
       .then(res => {
         //putting the token genrerated in the cookies
-        console.log(res.data);
+        //console.log(res.data);
         $cookies.put('token',res.data.token);
         $cookies.put('organisation', res.data.organisation.name);
         $cookies.put('organisationId', res.data.organisation._id);
@@ -120,14 +120,14 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
       });
     },
     loginOrganisation(org){
-      console.log("here finding");
+      //console.log("here finding");
       return Organisation.find(org)
             .$promise.then((data) =>{
               $cookies.put('organisation', data.name);
               $cookies.put('organisationId', data._id);
 
-              console.log("inside Found");
-              console.log(data);
+              //console.log("inside Found");
+              //console.log(data);
               return data;
             });
 
@@ -162,13 +162,32 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
 
         return User.add(data)
                     .$promise.then((data) =>{
-                      console.log(data);
+                      //console.log(data);
                       return data;
                     })
 
 
      },
+     //adding a comment to post
+     addComment(data){
 
+       return User.addComment(data)
+                  .$promise.then((data) =>{
+                    return data;
+                  })
+
+     },
+
+     //pining a chat in organisation channel wall with channelId and chat message pinned in data
+     pinChatInChannel(data){
+      //alert(data);
+      return Channel.pinChatInChannel(data)
+                    .$promise.then((data)=>{
+                      //console.log("data in auth");
+                      //console.log(data);
+                      return data;
+                    })
+                       },
      //check the domain of the organisation
      checkDomainOrg(data){
        alert(data);
@@ -193,7 +212,7 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
      addChannelInUser(data){
        User.addChannel(data)
             .$promise.then((data)=>{
-              console.log(data);
+              //console.log(data);
               return data;
             })
      },
@@ -201,7 +220,7 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
        alert(email+" "+teamId);
        return User.addTeamInUser1({email:email,team:teamId})
                   .$promise.then((data)=>{
-                    console.log(data);
+                  //  console.log(data);
                     return data;
                   })
      },
@@ -210,7 +229,7 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
      addUserInTeam(data){
        return Team.addUser(data)
                   .$promise.then((data)=>{
-                    console.log(data);
+                    //console.log(data);
                     return data;
                   })
 
@@ -220,7 +239,7 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
          addChannelInTeam(data){
            return Team.channelUpdate(data)
                        .$promise.then((data) => {
-                         console.log("channel updated in team");
+                         //console.log("channel updated in team");
                          return data;
                        })
 
@@ -239,7 +258,7 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
      addMembersInChannel(data){
        Channel.addMembersInChannel(data)
               .$promise.then((data)=>{
-                console.log("members added in channel");
+                //console.log("members added in channel");
                 return data;
               })
      }
@@ -250,7 +269,7 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
 
        return User.updateTeam({'organisationId':orgId,'teamId':teamId})
                           .$promise.then((data)=>{
-                            console.log("===updateTeam==="+JSON.stringify(data));
+                            //console.log("===updateTeam==="+JSON.stringify(data));
                             return data;
                           });
 
@@ -275,22 +294,33 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
      },
 
      populateUserId(orgId, teamId, userId){
-       console.log("Inside Populate User Id: "+orgId);
+       //console.log("Inside Populate User Id: "+orgId);
         User.addUser({'organisationId':orgId,'userId':userId})
                     .$promise.then((data)=>{
-                      console.log("user added in organisation");
-                      Channel.addUser({'teamId':teamId,'userId':userId})
+                      //console.log("user added in organisation");
+                      Channel.addUser({'teamId':teamId,'userId':userId,'name':'general'})
                               .$promise.then((data) => {
-                                console.log('user added in channel');
+                                //console.log('user added in channel');
                                 User.addChannel({'channelId':data._id,'userId':userId})
                                     .$promise.then((data) => {
-                                      console.log('channel added in user');
+                                      //console.log('channel added in user');
                                       return data;
                                     })
-                              })
+                              });
+                              Channel.addUser({'teamId':teamId,'userId':userId,'name':'wall'})
+                                      .$promise.then((data) => {
+                                        //console.log('user added in channel');
+                                        User.addChannel({'channelId':data._id,'userId':userId})
+                                            .$promise.then((data) => {
+                                              //console.log('channel added in user');
+                                              return data;
+                                            })
+                                      });
+
+
                       Team.addUser({'teamId':teamId,'userId':userId})
                             .$promise.then((data)=>{
-                              console.log('user added in team');
+                            //  console.log('user added in team');
                               return data;
                             })
                     })
@@ -299,14 +329,14 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
 findOrgbyName(data){
   return User.findOrgbyName(data)
       .$promise.then((data)=>{
-        console.log(data);
+        //console.log(data);
         return data;
       })
 },
      addChannelInUser(data){
        User.addChannel(data)
             .$promise.then((data)=>{
-              console.log(data);
+              //console.log(data);
               return data;
             })
      },
@@ -332,7 +362,7 @@ findOrgbyName(data){
           })
           .error(function(data) {
             // Show error message
-              console.log(' Error ');
+              //console.log(' Error ');
           });
 
       },
@@ -352,15 +382,15 @@ findOrgbyName(data){
        //alert("in auth service");
       return Team.save({name:data.name,teamLeadEmail:data.email,organisation:data.Organisation})
                   .$promise.then((data) =>{
-                    console.log("team------"+JSON.stringify(data));
-                    console.log("saved in team databases");
+                  //  console.log("team------"+JSON.stringify(data));
+                  //  console.log("saved in team databases");
                     return data._id;
                   });
     },
     addChannelInTeam(data){
       return Team.channelUpdate(data)
                   .$promise.then((data) => {
-                    console.log("channel updated in team");
+                    //console.log("channel updated in team");
                     return data;
                   })
 
@@ -369,15 +399,15 @@ findOrgbyName(data){
       alert("inside auth service");
       return User.addChannel(data)
                 .$promise.then((data)=>{
-                  console.log("channel in org");
+                //  console.log("channel in org");
                   return data;
                 });
     },
-    createChannel(data){
-      console.log("inside createChannel");
-      return Channel.save({name:'general',team:data})
+    createChannel(data,name){
+      //console.log("inside createChannel");
+      return Channel.save({name:name,team:data})
                     .$promise.then((data)=>{
-                      console.log("channel in db");
+                      //console.log("channel in db");
                       return data;
                     })
     },
@@ -513,7 +543,7 @@ findOrgbyName(data){
     }
     ,
     checkExisting(email, teamId) {
-      console.log('checkExisting in Auth.service');
+    //  console.log('checkExisting in Auth.service');
       return $http.post('/api/users/checkExisting', {email: email})
         .then(function(res) {
           //console.log(res.data);
@@ -524,21 +554,21 @@ findOrgbyName(data){
               var userId = res.data._id;
               Channel.addUser({'teamId':teamId, 'userId':userId})
                   .$promise.then((data) => {
-                      console.log('user added in channel');
+                      //console.log('user added in channel');
                       User.addChannel({'channelId':data._id,'userId':userId})
                           .$promise.then((data) => {
-                              console.log('channel added in user');
+                            //  console.log('channel added in user');
                               return data;
                           });
                   });
               Team.addUser({'teamId':teamId, 'userId':userId})
                   .$promise.then( (data) => {
-                      console.log('user added in team');
+                      //console.log('user added in team');
                       return data;
                   });
               User.addTeamInUser1({email:email, team:teamId})
                   .$promise.then((data)=>{
-                    console.log(data);
+                    //console.log(data);
                     return data;
                   });
               return res.data;
@@ -546,7 +576,7 @@ findOrgbyName(data){
           },
           function(err) {
           if(err) {
-            console.error(err);
+          //  console.error(err);
             return err;//should I return error or not.
           }
         });

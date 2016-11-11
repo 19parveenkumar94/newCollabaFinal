@@ -4,7 +4,8 @@
 'use strict';
 
 // import config from './environment';
-
+var onlineUsers=[];
+var numberOfOnlineUsers=0;
 // When the user disconnects.. perform this
 function onDisconnect(/*socket*/) {}
 
@@ -15,20 +16,55 @@ function onConnect(socket,socketio) {
     socket.log(JSON.stringify(data, null, 2));
   });
 
+  socket.on('isTyping', data => {
+     // console.log('Socket:id' + socket.id);
+     // console.log("Data:" + data);
+     console.log(data);
+     socketio.to(data.room)
+       .emit('isTyping', data);
+       });
+
   //aditya's chat socket part
 
   socket.on('room', data => {
       socket.join(data);
     });
+
+    //leaving a room
+    socket.on('roomLeave',data=>{
+      socket.leave(data);
+    })
+
     //send message to the people in channel
     socket.on('channel-message', data => {
       // console.log('Socket:id' + socket.id);
       // console.log("Data:" + data);
       socketio.to(data.room)
         .emit('channel-message', data);
+        socketio.emit('notification',data);
       socket.log(JSON.stringify(data, null, 2));
     });
 
+    //add the user in online users list
+    socket.on('addInOnlineUsersList',data=>{
+      numberOfOnlineUsers++;
+      onlineUsers.push(data);
+      console.log("data in online users list ");
+      console.log(numberOfOnlineUsers);
+      console.log(onlineUsers);
+      socketio.emit('updatedOnlineUserList',onlineUsers);
+    });
+//remove the user from online users list after logout
+  socket.on('removeFromOnlineUserList',data=>{
+    for(var i=0;i<numberOfOnlineUsers;i++)
+    {
+      if(onlineUsers[i].email==data.email)
+        {onlineUsers.splice(i,1);
+          break;
+        }
+    }
+      socketio.emit('updatedOnlineUserList',onlineUsers);
+  })
   // Insert sockets below
   require('../api/team/team.socket').register(socket);
   require('../api/channel/channel.socket').register(socket);
@@ -37,6 +73,7 @@ function onConnect(socket,socketio) {
 }
 
 export default function(socketio) {
+
   // socket.io (v1.x.x) is powered by debug.
   // In order to see all the debug output, set DEBUG (in server/config/local.env.js) to including the desired scope.
   //

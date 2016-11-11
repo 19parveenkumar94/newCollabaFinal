@@ -2,16 +2,18 @@
   margin: 20px 0;
 }
 .check{
-  
+
 }
 #organisationCheck{
   width:50%;
   text-align: center;
 }
+
 #collabaCoverImage{
-  border-radius:50%;
-  height:100px;
+  border-radius:25%;
+  height:300px;
 }
+
 #banner {
   border-bottom: none;
   margin-top: -20px;
@@ -35,3 +37,21 @@
 .navbar-text {
   margin-left: 15px;
 }
+
+
+#mainBody {
+  background: url("http://s3.amazonaws.com/libapps/customers/4624/images/collaboration.jpg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
+.mainText {
+  color: #ffffff;
+  font-size: 18px;
+  /*background-color: #1561c4;*/
+}
+
+/*.lead {
+  color: #1c4fdb;
+}*/

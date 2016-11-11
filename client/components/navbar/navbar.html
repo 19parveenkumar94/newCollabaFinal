@@ -23,12 +23,7 @@
       <ul class="nav navbar-nav navbar-right">
         <!-- gauravs dropdown part for login and signup -->
         <li ng-hide="$ctrl.isLoggedIn()||$ctrl.isOrganisation()" ui-sref-active="active" class="dropdown">
-      <a class="dropdown-toggle" data-toggle="dropdown" ui-sref='login'>Login
-      <span class="caret"></span></a>
-      <ul class="dropdown-menu">
-        <li><a ui-sref="login">User</a></li>
-        <li><a ui-sref="loginOrganisation">Organization</a></li>
-      </ul>
+      <a class="dropdown-toggle" data-toggle="dropdown" ui-sref='login'>Login</a>
     </li>
 
 
@@ -40,13 +35,10 @@
         <li><a ui-sref="registerOrg">Organization</a></li>
       </ul>
     </li>
-      <!-- till here -->
-        <!-- <li ng-hide="$ctrl.isLoggedIn()||$ctrl.isOrganisation()" ui-sref-active="active"><a ui-sref="signup">Sign up</a></li>
-        <li ng-hide="$ctrl.isLoggedIn()||$ctrl.isOrganisation()" ui-sref-active="active"><a ui-sref="registerOrg">Register Organisation</a></li>
-        <li ng-hide="$ctrl.isLoggedIn()||$ctrl.isOrganisation()" ui-sref-active="active"><a ui-sref="login">Login</a></li> -->
         <li ng-show="$ctrl.isLoggedIn()"><p class="navbar-text">Hello {{ $ctrl.getCurrentUser().name }}</p> </li>
         <li ng-show="$ctrl.isOrganisation()"><p class="navbar-text">Hello {{ $ctrl.getCurrentOrganisation()}}</p> </li>
-        <li ng-show="$ctrl.isLoggedIn()" ui-sref-active="active"><a ui-sref="settings"><span class="glyphicon glyphicon-cog"></span></a></li>
+        <li ng-show="$ctrl.isLoggedIn()" ui-sref-active="active"><a ui-sref="settings">
+          <i class="material-icons" style="font-size: 150%;">settings</i></a></li>
         <li ng-show="$ctrl.isLoggedIn()||$ctrl.isOrganisation()"><a ui-sref="logout">Logout</a></li>
         </ul>
     </div>

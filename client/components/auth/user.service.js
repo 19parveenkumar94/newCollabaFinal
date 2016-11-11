@@ -17,7 +17,14 @@ export function UserResource($resource) {
       params: {
         id: 'me'
       }
+    },
+    addComment: {
+      method: 'POST',
+      params: {
+        controller: 'addComment'
+      }
     }
+
     ,updateTeam: {
         method: 'POST',
         params: {

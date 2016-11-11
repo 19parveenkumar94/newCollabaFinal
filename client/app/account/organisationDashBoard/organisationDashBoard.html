@@ -1,105 +1,77 @@
-<link rel="stylesheet" href="oraganisationDashBoard.css">
-<header >
-<div class="container-fluid">
-  <h1>Welcome, {{vm.org.name}}</h1>
-  <!--<p class="lead">Welcome To your DashBoard</p>-->
-</div>
-</header>
-
-<div class="row">
-<div class="col-sm-4 orgInfo">
-<p>Your organisation information:</p>
-<table class="table table-condensed">
-  <tbody>
-    <tr>
-      <td><label>About:</label></td>
-      <td>{{vm.org.about}}</td>
-    </tr>
-    <tr>
-      <td><label>Address</label></td>
-      <td>{{vm.org.address}}</td>
-    </tr>
-
-    <tr>
-      <td><label>Email:</label></td>
-      <td>{{vm.org.email}}</td>
-    </tr>
-
-    <tr>
-      <td><label>Phone:</label></td>
-      <td>{{vm.org.phone}}</td>
-    </tr>
-
-    <tr>
-      <td><label>Website:</label></td>
-      <td>{{vm.org.website}}</td>
-    </tr>
-  </tbody>
-</table>
-</div> 
-
-
-
-<div class="col-xs-8">
-<div class="col-xs-12">
-<div class="col-xs-8">
-</div>
-<div class="col-xs-4">
-  <button class="btn btn-primary" ng-click="vm.toggle()" data-toggle="button">Add Teams</button>
-
-  <form ng-show="vm.show" ng-submit="vm.addTeam()">
-    <div class="form-group">
-      <label>Team Name:</label>
-      <input type="text" class="form-control" ng-model="vm.team.name" >
+<div  layout-gt-sm="row" layout="column" class="listdemoBasicUsage" >
+<div flex-gt-sm="10" flex=""></div>
+  <div flex-gt-sm="60" flex="">
+    <md-toolbar layout="row" class="md-hue-3">
+      <div class="md-toolbar-tools">
+        <span><h2 class="md-display-1">Welcome, {{vm.org.name}}</h2></span>
+      </div>
+    </md-toolbar>
+    <md-content>
+      <md-subheader>About:</md-subheader>
+        <p>{{vm.org.about}}</p>
+    <md-divider></md-divider>
+    <md-content>
+    <md-subheader>Address:</md-subheader>
+        <p>{{vm.org.address}}</p>
+    <md-divider></md-divider>
+    <md-content>
+      <md-subheader>Email:</md-subheader>
+        <p>{{vm.org.email}}</p>
+    <md-divider></md-divider>
+    <md-content>
+      <md-subheader>Phone:</md-subheader>
+        <p>{{vm.org.phone}}</p>
+    <md-divider></md-divider>
+    <md-content>
+      <md-subheader>Website:</md-subheader>
+        <p>{{vm.org.website}}</p>
+    <md-divider></md-divider>
+  </div>
+<div flex-gt-sm="10" flex=""></div>
+<div flex-gt-sm="100" flex="">
+  <md-toolbar layout="row" class="md-hue-3">
+    <div class="md-toolbar-tools">
+      <span><h2 class="md-display-1">Registered Teams</h2></span>
     </div>
-
-<div class="form-group">
-  <label for="email">Email address:</label>
-  <input type="email" class="form-control" ng-model="vm.team.email">
+  </md-toolbar>
+<div ng-repeat="team in vm.org.teams">
+  <md-button type="button" class="md-raised" ng-click="vm.toggleHide($index)" >{{team.name}}</md-button>
+  <div ng-show=team.hide>
+  <md-card md-theme="{{ showDarkTheme ? 'dark-purple' : 'default' }}" md-theme-watch="">
+    <md-tabs md-dynamic-height="" md-border-bottom="">
+   <md-tab label="Team Information">
+     <md-content class="md-padding">
+      <p class="md-subhead" >Team Name: {{team.name}}</p>
+       <p class="md-subhead" >Team Lead Email: {{team.teamLeadEmail}}</p>
+     <div layout="row">
+       <div flex="20"></div>
+    </div>
+     </md-content>
+   </md-tab>
+   <md-tab label="Team Members" ng-click="vm.getMembers($index)">
+     <md-content class="md-padding">
+       <p ng-repeat="members in vm.currentTeam.members">{{members.name}}</br></p>
+     </md-content>
+   </md-tab>
+   </md-tabs>
+          </md-card>
+        </div>
 </div>
-
-
-<button type="submit" class="btn btn-default">Submit</button>
+</div>
+<div flex-gt-sm="100" flex="">
+<div flex="50"></div>
+<md-button type="button" class="md-raised" ng-click="vm.toggle()" >Add Team</md-button>
+  <md-card md-theme="{{ showDarkTheme ? 'dark-purple' : 'default' }}" md-theme-watch="">
+<form ng-show="vm.show" ng-submit="vm.addTeam()">
+  <md-input-container class="md-block" flex-gt-sm="">
+  <label>Team Name:</label>
+  <input  ng-model="vm.team.name" required>
+  </md-input-container>
+  <md-input-container class="md-block" flex-gt-sm="">
+  <label>Email</label>
+  <input  ng-model="vm.team.email" required>
+  </md-input-container>
+<md-button type="submit" class="md-raised">Submit</button>
 </form>
-
-
+</md-card>
 </div>
-</div>
-</div>
-
-<div class="col-sm-2"></div>
-
-<!-- display online users -->
-<div class="col-sm-4 orgInfo">
-<p>Registered Teams:</p>
-<table class="table table-condensed">
-<tbody>
-  <tr  ng-repeat="team in vm.org.teams" ng-click="this.toggleMember()">
-    <td ng-click="vm.getMembers(team)"><label class="btn btn-primary">Team Name:</label>
-    {{team.name}}</br>
-    <label class="btn btn-primary">Team Lead Email: </label>
-    {{team.teamLeadEmail}}
-    </td>
-  </tr>
-</tbody>
-</table>
-
-<div ng-hide="vm.showTeamInfo">
-  <label ng-hide="vm.showTeamInfo">Name of Members in team:</label>
-<p ng-repeat="members in vm.currentTeam.members">{{members.name}}</br></p>
-</div>
-
-</div>
-</div>
-
-
-
-
-
-
-
-</div>
-</div>
-
-
-</script>

@@ -16,12 +16,15 @@ import teamDashBoard    from './teamDashBoard/teamDashBoard.controller';
 import addToTeamExisting    from './addToTeamExisting/addToTeamExisting.controller';
 import organisationWall from './organisationWall/organisationWall.controller';
 
+import teamWall from './teamWall';
+import user from './user';
+
 
 import oauthButtons from '../../components/oauth-buttons';
 
 export default angular.module('yoCollabaFinalApp.account', [uiRouter, ngFileUpload, login, settings, signup,
     oauthButtons, organisationDashBoard, organisationRegister, loginOrganisation, teamDashBoard,
-    addToTeamExisting, organisationWall
+    addToTeamExisting, organisationWall, teamWall, user
   ])
   .config(routing)
   .run(function($rootScope) {

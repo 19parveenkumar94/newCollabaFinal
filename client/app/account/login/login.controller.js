@@ -50,7 +50,7 @@ export default class LoginController {
         }
       }
         else{
-          this.$state.go('teamDashBoard');
+          this.$state.go('user');
         }
 
         })

@@ -40,5 +40,12 @@ export function ChannelResource($resource) {
         id: 'addMembersInChannel'
       }
     }
+    ,
+    pinChatInChannel: {
+      method: 'POST',
+      params: {
+        id:  'pinChatInChannel'
+      }
+    }
 });
 }

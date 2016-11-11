@@ -36,6 +36,7 @@
   </md-toolbar>
 <div ng-repeat="team in vm.org.teams">
   <md-button type="button" class="md-raised" ng-click="vm.toggleHide($index)" >{{team.name}}</md-button>
+
   <div ng-show=team.hide>
   <md-card md-theme="{{ showDarkTheme ? 'dark-purple' : 'default' }}" md-theme-watch="">
     <md-tabs md-dynamic-height="" md-border-bottom="">

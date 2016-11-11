@@ -53,8 +53,9 @@
 
 11/11/16
 	*	client/navbar.html - 19
-	*	client/navbar.component - 25
-	
+	*	client/navbar.component - 25 - Added navbar link to Organisation Dashboard
+	*	
+
 
 //NOTES
 	*	For Deleting a Channel
@@ -65,4 +66,10 @@
 	*	For Deleting User from a Channel
 		- Remove User from Channel model
 		- Remove Channel from User model
+
+	*	Allowing Organisation Admin to delete team
+		-	Remove Team from Organisation
+		-	Remove Team from Users
+		-	Delete Team Channels (Follow Above instructions for deleting Channel)
+		-	Remove Team from Team Model
 

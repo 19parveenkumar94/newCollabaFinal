@@ -23,12 +23,12 @@ export class NavbarComponent {
     this.getCurrentOrganisation = Auth.getCurrentOrganisation;
 
     this.isOrg = function() {
-      console.log('Inside IsOrg');
+      //console.log('Inside IsOrg');
       if(this.getCurrentUser().role == 'Organisation') {
-        console.log(true) ;
+        //console.log(true) ;
         return true;
       }
-      console.log(false);
+      //console.log(false);
       return false;
     }
     

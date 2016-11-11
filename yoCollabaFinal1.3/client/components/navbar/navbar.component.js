@@ -21,8 +21,19 @@ export class NavbarComponent {
     this.getCurrentUser = Auth.getCurrentUserSync;
     this.isOrganisation = Auth.isOrganisation;
     this.getCurrentOrganisation = Auth.getCurrentOrganisation;
+
+    this.isOrg = function() {
+      console.log('Inside IsOrg');
+      if(this.getCurrentUser.role == 'Organisation') {
+        console.log(true);
+        return true;
+      }
+      console.log('false');
+      return false;
+    }
     
   }
+
 
 }
 

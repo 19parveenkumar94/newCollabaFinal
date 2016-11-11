@@ -15,8 +15,8 @@
             <a ui-sref="{{item.state}}">{{item.title}}</a>
         </li>
         <li ng-show="$ctrl.isAdmin()" ui-sref-active="active"><a ui-sref="admin">Admin</a></li>
-        <li ng-show="$ctrl.isOrganisation()" ui-sref-active="active"><a ui-sref="organisationDashBoard">Go to {{ $ctrl.getCurrentUser().name}}</a></li>
-        <li ng-show="$ctrl.isLoggedIn() && !$ctrl.isOrganisation()" ui-sref-active="active"><a ui-sref="teamDashBoard">Go to Team</a></li>
+        <li ng-show="$ctrl.isOrg()" ui-sref-active="active"><a ui-sref="organisationDashBoard">Go to {{ $ctrl.getCurrentUser().name}}</a></li>
+        <li ng-show="$ctrl.isLoggedIn() && !$ctrl.isOrg()" ui-sref-active="active"><a ui-sref="teamDashBoard">Go to Team</a></li>
         <li ng-show="$ctrl.isLoggedIn()" ui-sref-active="active"><a ui-sref="orgWall">Go to Wall</a></li>
       </ul>
 

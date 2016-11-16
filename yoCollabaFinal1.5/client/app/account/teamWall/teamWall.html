@@ -1,0 +1,155 @@
+<div flex="100" style="text-align:center;">
+  <h2>Welcome to Team {{vm.team.name}} Wall</h2>
+</div>
+<div  class="layout">
+
+  <div flex="20">
+
+    <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch="">
+
+      <md-card-content>
+        <md-tabs md-dynamic-height md-border-bottom>
+          <md-tab label="Members">
+            <md-content class="md-padding">
+              <h4>{{vm.team.name}}</h4>
+              <div ng-repeat = "m in vm.team.members">
+                {{m.name}}
+              </div>
+            </md-content>
+          </md-tab>
+
+        </md-tabs>
+
+
+      </md-card-content>
+    </md-card>
+
+
+  </div>
+  <div id="chat" flex="80" style="margin:10px;">
+    <div class="input-group" ng-if="vm.team.teamLeadEmail==vm.currentUser.email">
+
+      <div layout="row">
+
+        <md-input-container class="md-block" flex="50">
+          <label>Enter post Title </label>
+          <input ng-model="vm.title">
+        </md-input-container>
+        <md-input-container class="md-block" flex="50">
+          <label>Enter Message</label>
+          <input ng-model="vm.message">
+        </md-input-container>
+
+
+
+      </div>
+      <!-- <input type="text" class="form-control" placeholder="Enter message" ng-model="vm.message" /> -->
+      <span class="input-group-btn">
+        <md-button class="md-raised md-primary" type="button" ng-click="vm.sendMessage()">Send</md-button>
+      </span>
+      <span class="input-group-btn">
+        <md-button class="md-raised md-warn" type="button" ngf-select="vm.upload($file, $invalidFiles)">Upload file</md-button>
+      </span>
+    </div>
+    <br/>
+    <ul ng-show='vm.showFileStatus' class="list-group">
+      <li class="list-group-item">
+        <div class="progress">
+          <div class="progress-bar" role="progressbar" aria-valuenow="{{vm.percent}}" aria-valuemin="0" aria-valuemax="100"
+          style="width:{{vm.percent}}%">
+          {{vm.percent}}%
+        </div>
+      </div>
+    </li></ul>
+    <md-content style="height: 600px;" md-theme="altTheme">
+
+      <section>
+
+        <md-list layout-padding="">
+          <md-list-item class="md-3-line" ng-repeat="chat in vm.chatHistory">
+
+            <div class="md-list-item-text">
+
+              <md-card md-theme="{{ showDarkTheme ? 'dark-purple' : 'default' }}" md-theme-watch ng-if="chat.type == 'text'">
+                <md-card-title>
+                  <md-card-title-text>
+                  <span>  <i class="material-icons" ng-click="vm.editPost(chat,$index)" ng-if="vm.currentUser.name==chat.sender">create</i>
+                    <i class="material-icons" ng-click=vm.deletePost(chat) ng-if="vm.currentUser.name==chat.sender">clear</i></span>
+                    <span class="md-headline">{{chat.title}}</span>
+                    <span class="md-subhead">{{chat.sender}}</span>
+                  </md-card-title-text>
+                  <!-- <md-card-title-media>
+                  <div class="md-media-sm card-media"></div>
+                </md-card-title-media> -->
+              </md-card-title>
+              <md-card-content>
+              <span  ng-bind-html="vm.trustAsHtml(chat.message)">  {{chat.message}}</span>
+              <span ng-if="chat.video"><img src="{{chat.thumbNail}}" height="300px" ng-click="vm.showVideo($event,chat.video)"/></span>
+                <span ng-show="chat.hide"><md-input-container><input ng-model="vm.edit" ng-value=chat.message></md-input-container>
+                  <md-button class="md-raised md-primary" type="button" ng-click="vm.editMessage(chat)">Edit!</md-button>
+                </span>
+                  <h3>Comments</h3>
+                <div layout="row">
+
+                  <md-input-container class="md-block" flex="70">
+                    <label>Enter Comment</label>
+                    <input ng-model="vm.comment">
+                  </md-input-container>
+                  <span class="input-group-btn" flex="30">
+                    <md-button class="md-raised md-primary" type="button" ng-click="vm.addComment(chat,$index)">Send</md-button>
+                  </span>
+                </div>
+                <section>
+                  <md-list layout-padding="">
+                    <md-list-item class="md-3-line" ng-repeat="comment in chat.comments">
+                      <span>{{comment.user}}:{{comment.comment}}</span>
+                    <md-list>
+
+                </section>
+
+              </md-card-content>
+              <!-- <md-card-actions layout="row" layout-align="end center">
+              <md-button>Action 1</md-button>
+              <md-button>Action 2</md-button>
+            </md-card-actions> -->
+          </md-card>
+
+          <md-card md-theme="{{ showDarkTheme ? 'dark-purple' : 'default' }}" md-theme-watch ng-if="chat.type == 'file'">
+          <md-card-title>
+            <md-card-title-text>
+              <span class="md-headline">{{chat.title}}</span>
+              <span class="md-subhead">{{chat.sender}}</span>
+            </md-card-title-text>
+            <!-- <md-card-title-media>
+            <div class="md-media-sm card-media"></div>
+          </md-card-title-media> -->
+        </md-card-title>
+        <md-card-content>
+        <a href="{{chat.message}}" target='_blank'>{{chat.ext}}</a>
+        </md-card-content>
+        <!-- <md-card-actions layout="row" layout-align="end center">
+        <md-button>Action 1</md-button>
+        <md-button>Action 2</md-button>
+      </md-card-actions> -->
+    </md-card>
+
+
+
+    <!-- <h3 ng-if="chat.type == 'text'"><span>{{chat.title}}</span><span class="md-warn">{{chat.sender}}:</span><span class="message"> {{chat.message}}</span> -->
+    <!-- <span style="text-align:right;"><md-button ng-click="vm.pin(chat)" class="md-raised md-primary">PIN</md-button></span> -->
+    <!-- </h3> -->
+    <!-- <h4 ng-if="chat.type == 'file'"><span>{{chat.title}}</span><span >{{chat.sender}}</span>&nbsp;<a href="{{chat.message}}" target='_blank'>{{chat.ext}}</a></h4> -->
+  </div>
+</md-list-item>
+</md-list>
+</section>
+</md-content>
+<!-- <ul ng-repeat='chat in vm.chatHistory' class="list-group">
+<li ng-if="chat.type == 'text'" class="list-group-item"><span >{{chat.sender}}:</span>&nbsp;<span class="message"> {{chat.message}}
+</span></li>
+<li ng-if="chat.type == 'file'" class="list-group-item"><span >{{chat.sender}}</span>&nbsp;<a href="{{chat.message}}" target='_blank'>
+{{chat.ext}}</a></li>
+</ul> -->
+</div>
+
+</div>

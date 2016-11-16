@@ -12,6 +12,9 @@
 
 import jsonpatch from 'fast-json-patch';
 import Team from './team.model';
+import User from '../user/user.model';
+import Channel from '../channel/channel.model';
+
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -112,6 +115,7 @@ export function channelUpdate(req,res){
                 res.send(team);
               });
 }
+
 // Upserts the given Team in the DB at the specified ID
 export function upsert(req, res) {
   if(req.body._id) {
@@ -142,3 +146,81 @@ export function destroy(req, res) {
     .then(removeEntity(res))
     .catch(handleError(res));
 }
+
+
+
+//Deleting Team from the Organisation
+export function deleteTeam(req, res) {
+  var tId = req.body.teamId, orgId = req.body.orgId;
+  console.log('Inside POST api/teams/deleteTeam : ' + tId + ", " + orgId);
+
+  return Team.findById(tId)
+    .exec()
+    .then(team => {
+      //Remove Team from it's Member's Team List.
+      for(var i=0; i<team.members.length; ++i) {
+        User.findById(team.members[i])
+          .exec()
+          .then(user => {
+            var idx = user.teams.indexOf(tId);
+            user.teams.splice(idx, 1);
+            user.save();
+          })
+          .catch(err => {
+            console.error(err);
+          });
+      }//for
+
+
+      //Delete Team Channels
+      var channelList = team.channels;
+      for(var i=0; i<channelList.length; ++i) {
+        Channel.findById(channelList[i])
+          .exec()
+          .then(channel => {
+            //Remove Channel from all it's Member's Channel List
+            for(var j=0; j<channel.members.length; ++i) {
+              User.findById(channel.members[i])
+                .exec()
+                .then(user => {
+                  var idx = user.channels.indexOf(channel._id);
+                  user.channels.splice(idx, 1);
+                  user.save();   
+                })
+                .catch(err => {
+                  console.error(err);
+                });
+            }//for
+
+            //Remove Channel from it's Team's Channel List
+            //Should Do this or Skip it?
+
+            //Delete Channel from Channel Collection
+            channel.remove();
+          })
+          .catch(err => {
+            console.error(err);
+          });
+      }//for
+
+      //Remove Team from Organisation's Team List
+      User.findById(orgId)
+        .exec()
+        .then(org => {
+          var idx = org.teams.indexOf(tId);
+          org.teams.splice(idx, 1);
+          org.save();
+        })
+        .catch(err => {
+          console.error(err);
+        });
+
+      //Delete Team from Team Collection 
+      team.remove();
+      console.log('Team Deleted : ' + tId);
+      res.send(true);
+    })
+    .catch(err => {
+      console.error(err);
+    });
+}//deleteTeam

@@ -10,6 +10,7 @@ router.get('/:id', controller.show);
 router.post('/', controller.create);
 router.post('/addUser', controller.addUser);
 router.post('/channelUpdate', controller.channelUpdate);
+router.post('/deleteTeam', controller.deleteTeam);
 
 router.put('/:id', controller.upsert);
 router.patch('/:id', controller.patch);

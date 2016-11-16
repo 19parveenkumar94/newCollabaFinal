@@ -105,7 +105,39 @@ this.addTeam=function(){
           console.log(err.message);
         });
          }
+
+
+  //Check if Current Logged in User is an Organisation
+  this.isOrg = function() {
+    var retVal = self.org.role == 'Organisation';
+    console.log('Inside isOrg : ' + retVal);
+    return retVal;
+  }
+
+  //Function for Deleting Team from Organisation
+  this.deleteTeam = function(tId, tName) {
+    console.log('Inside Delete Team : ' + tId + ', ' + self.org._id);
+
+    if(confirm(" Confirm Delete Team '" + tName + "' ?") == false) 
+      return false;
+    
+    console.log('Deleting Team : ' + tName);
+
+    this.$http.post('/api/teams/deleteTeam', { teamId: tId, orgId: self.org._id})
+          .success(function(data) {
+            self.$state.go('organisationDashBoard');
+            console.log("Team '" + tName + "' Successfully Deleted.");
+          })
+          .error(function(err) {
+            console.error(err);
+          });
+
+      return true;
+    }
 }
+
+
+
 export default angular.module('yoCollabaFinalApp.organisationDashBoard', [])
   .controller('OrganisationDashBoardController', organisationDashBoardController)
   .name;
